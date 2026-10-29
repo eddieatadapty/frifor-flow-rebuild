@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- flow-rebuild template (Growth Audit, v3: + walkthrough video, phone view/QR, localization, paywall today vs proposed). Replace every double-brace placeholder, everything between
+     the SCREENS markers, and the CONTENT json. Rules that brand-check.py enforces are marked RULE.
+     Reference builds: eddieatadapty.github.io/datacamp-flow-rebuild-v2 · bterzic123.github.io/planner5d-flow-rebuild-v2 -->
+<title>Frifor Growth Audit</title>
+<meta name="description" content="Five ideas to turn more Frifor users into subscribers, each built into a clickable version of Frifor's own onboarding. Prepared by Adapty.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- the APP's font (brand.json fonts, or the closest Google family) + a mono if the app shows code -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* BRAND:START — the only place the APP's colours are written as literals. RULE: every value here is
+   copied from brand.json / a sampled pixel of the app's own screens; never "improved". Used only inside the phone. */
+:root{
+  --b-primary:#8ccb26;      /* leaf: their positive / primary button (site .button--primary, "Renvare" pill in the app) */
+  --b-primary-ink:#033511;  /* forest on leaf */
+  --b-bg:#fcfaee;           /* limestone: the cream sheet every in-app screen sits on */
+  --b-surface:#f4f0dd;      /* sand-lighter: chips, rows, the Lukk button */
+  --b-ink:#033511;          /* forest: all text */
+  --b-ink2:#697e65;         /* sage: secondary text, italic labels */
+  --b-line:#ebe4bc;         /* sand: borders, the drag handle, the reviews ground */
+  --b-accent2:#e96756;      /* clay: "Ultraprosessert", the allergens you avoid */
+  --b-grad:linear-gradient(180deg,#033511,#02270c);
+  --b-forest:#033511;       /* the dark header behind every sheet */
+  --b-deep:#02270c;         /* forest-darker */
+  --b-coral:#f8cdbf;        /* negative-light: the remarks box */
+  --b-redtext:#c0432f;      /* clay-text */
+  --b-rose:#fa9ead;         /* the HYPER badge */
+  --b-sky:#82b8f8;          /* own-brand (EMV) badge */
+  --b-limestone2:#f7f4e3;   /* positive-light */
+  --b-radius:16px;
+  --b-pill:999px;
+  --b-font:'Inter Tight',-apple-system,system-ui,sans-serif;
+  --b-cond:'Barlow Condensed','Inter Tight',sans-serif;
+  --b-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+/* BRAND:END */
+/* their second and third families (MD System Condensed for headlines, MD IO mono for chips, lists and the wordmark) */
+.scr .cnd{font-family:var(--b-cond)}
+.scr .mono,.scr .f-pl,.scr .f-wm,.scr .f-pr span.f-prl,.scr .f-mk{font-family:var(--b-mono)}
+
+/* ================= the audit page — Adapty's, not the app's. Light, Apple-style. ================= */
+:root{
+  color-scheme:light;
+  --st-ground:#f5f5f7; --st-card:#ffffff; --st-ink:#1d1d1f; --st-ink2:#6e6e73; --st-ink3:#86868b;
+  --st-hair:rgba(0,0,0,.09); --st-link:#0066cc;
+  --st-accent:#033511;      /* dark brand colour of the APP: buttons, the outcome band */
+  --st-hi:#8ccb26;          /* bright brand colour of the APP: outcome numbers on the band, idea dots */
+  --st-mark:rgba(140,203,38,.55); /* --st-hi at ~.5 alpha: the highlighter under impact numbers */
+  --st-font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+html,body{margin:0}
+body{background:var(--st-ground);color:var(--st-ink);font-family:var(--st-font);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.47}
+.au-wrap{max-width:1080px;margin:0 auto;padding-inline:22px}
+a{color:var(--st-link)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--st-link);outline-offset:3px;border-radius:6px}
+mark{background:linear-gradient(transparent 62%,var(--st-mark) 62%,var(--st-mark) 92%,transparent 92%);color:inherit;padding:0 .04em}
+
+/* nav */
+.au-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(245,245,247,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--st-hair)}
+.au-nav-in{max-width:1080px;margin:0 auto;padding-inline:22px;height:52px;display:flex;align-items:center;gap:26px}
+.au-brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.au-brand img{width:26px;height:26px;border-radius:7px;flex:none}
+.au-brand span{font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.au-brand small{font-size:15px;font-weight:400;color:var(--st-ink2)}
+.au-nav a{font-size:13px;color:var(--st-ink);text-decoration:none;opacity:.82}
+.au-nav a:hover{opacity:1}
+@media (max-width:560px){.au-nav a.au-opt{display:none}.au-brand small{display:none}}
+
+/* hero */
+.au-top-hero{text-align:center;padding-top:clamp(56px,9vw,96px);overflow:hidden;position:relative}
+.au-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--st-ink);margin:0 0 14px}
+.au-eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-display{font-size:clamp(60px,12vw,120px);line-height:.98;font-weight:700;letter-spacing:-.05em;margin:0}
+.au-lede{font-size:clamp(23px,3.4vw,34px);line-height:1.16;font-weight:600;letter-spacing:-.022em;max-width:760px;margin:22px auto 0;text-wrap:balance}
+.au-lede span{color:var(--st-ink2)}
+.au-byline{font-size:14px;color:var(--st-ink3);margin:18px 0 0}
+.au-ctas{display:flex;gap:26px;justify-content:center;align-items:center;margin-top:30px;flex-wrap:wrap}
+.au-btn{display:inline-block;background:var(--st-accent);color:#fff;border-radius:980px;padding:12px 23px;font-size:17px;font-weight:500;text-decoration:none;border:0;cursor:pointer}
+.au-btn:hover{filter:brightness(1.25)}
+.au-lnk{background:none;border:0;padding:0;color:var(--st-link);font-size:17px;text-decoration:none;cursor:pointer}
+.au-lnk::after{content:"\00a0›"}
+.au-lnk:hover{text-decoration:underline}
+.au-phones{display:flex;justify-content:center;align-items:flex-start;margin-top:clamp(40px,6vw,64px);height:clamp(300px,52vw,560px)}
+.au-hp{flex:none;border:0;padding:0;background:none;cursor:pointer;width:27%;max-width:290px;margin:0 -2.5%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.au-hp img{display:block;width:100%;height:auto;filter:drop-shadow(0 28px 50px rgba(0,0,0,.2))}
+.au-hp.au-c{width:31%;max-width:330px;z-index:2}
+.au-hp.au-l{transform:translateY(12%) rotate(-5deg)}
+.au-hp.au-r{transform:translateY(12%) rotate(5deg)}
+.au-hp.au-l:hover{transform:translateY(9%) rotate(-5deg)}.au-hp.au-r:hover{transform:translateY(9%) rotate(5deg)}.au-hp.au-c:hover{transform:translateY(-3%)}
+
+/* sections */
+.au-sec{padding-block:clamp(72px,10vw,120px)}
+.au-sec.au-white{background:var(--st-card)}
+.au-kicker{font-size:15px;font-weight:600;color:var(--st-ink2);margin:0 0 12px}
+.au-h2{font-size:clamp(34px,5.2vw,56px);line-height:1.06;font-weight:700;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.au-h2 span{color:var(--st-ink3)}
+.au-split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,6vw,80px);align-items:end}
+.au-split p{margin:0;font-size:clamp(17px,1.7vw,21px);line-height:1.45;color:var(--st-ink2);letter-spacing:-.01em}
+.au-split p b{color:var(--st-ink);font-weight:600}
+.au-split p + p{margin-top:16px}
+.au-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(48px,7vw,80px);border-top:1px solid var(--st-hair)}
+.au-stat{padding:28px 20px 0 0}
+.au-stat b{display:block;font-size:clamp(40px,5.5vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.au-stat span{display:block;font-size:15px;color:var(--st-ink2);margin-top:10px;max-width:22ch}
+.au-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(48px,7vw,72px)}
+.au-note h3{font-size:19px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px}
+.au-note p{margin:0;font-size:15.5px;line-height:1.5;color:var(--st-ink2)}
+.au-note .au-ic{width:36px;height:36px;border-radius:10px;background:var(--st-ground);display:grid;place-items:center;margin-bottom:16px}
+.au-note .au-ic svg{width:19px;height:19px;stroke:var(--st-accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ideas */
+.au-ideas-h{margin-bottom:clamp(32px,5vw,48px)}
+.au-list{background:var(--st-card);border-radius:28px;padding-inline:clamp(20px,4vw,44px)}
+.au-idea{display:grid;grid-template-columns:56px 1fr 220px;gap:20px;align-items:start;padding-block:clamp(26px,3.5vw,36px);border-top:1px solid var(--st-hair)}
+.au-idea:first-child{border-top:0}
+.au-idea .au-num{font-size:15px;font-weight:600;color:var(--st-ink3);font-variant-numeric:tabular-nums;padding-top:6px}
+.au-idea h3{font-size:clamp(21px,2.4vw,26px);line-height:1.2;font-weight:600;letter-spacing:-.022em;margin:0 0 8px}
+.au-idea p{margin:0 0 12px;font-size:17px;line-height:1.5;color:var(--st-ink2);max-width:58ch}
+.au-idea p code{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--st-ink);background:var(--st-ground);padding:2px 7px;border-radius:6px}
+.au-idea .au-lnk{font-size:15px}
+.au-imp{text-align:right}
+.au-imp .au-v{font-size:clamp(30px,3.6vw,40px);font-weight:700;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;color:var(--st-accent)}
+.au-imp .au-l{font-size:13.5px;color:var(--st-ink2);margin-top:8px}
+.au-band{margin-top:20px;background:var(--st-accent);color:#fff;border-radius:28px;padding:clamp(32px,5vw,56px);display:grid;grid-template-columns:1fr auto;gap:clamp(28px,5vw,64px);align-items:center}
+.au-band .au-k{font-size:15px;font-weight:600;color:rgba(255,255,255,.62);margin:0 0 10px}
+.au-band h3{font-size:clamp(24px,3vw,32px);line-height:1.18;font-weight:600;letter-spacing:-.022em;margin:0;text-wrap:balance}
+.au-band .au-fn{font-size:13px;line-height:1.5;color:rgba(255,255,255,.55);margin:16px 0 0;max-width:52ch}
+.au-nums{display:flex;gap:clamp(28px,4vw,48px)}
+.au-nums small{display:block;font-size:13px;color:rgba(255,255,255,.62)}
+.au-nums b{display:block;font-size:clamp(48px,6.5vw,76px);font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--st-hi);font-variant-numeric:tabular-nums;margin:4px 0 8px}
+.au-nums span{font-size:14px;color:rgba(255,255,255,.8)}
+.au-band .au-btn{background:var(--st-hi);color:var(--st-accent);font-weight:600;margin-top:26px}
+
+/* prototype */
+.au-proto-h{text-align:center;max-width:720px;margin:0 auto}
+.au-proto-h p{font-size:clamp(17px,1.7vw,21px);color:var(--st-ink2);margin:14px 0 0}
+.au-seg{display:flex;gap:4px;justify-content:center;margin:clamp(28px,4vw,40px) auto 0;padding:4px;background:var(--st-ground);border-radius:980px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.au-seg::-webkit-scrollbar{display:none}
+.au-chip{flex:none;display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--st-ink2);font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:980px;cursor:pointer;white-space:nowrap}
+.au-chip:hover{color:var(--st-ink)}
+.au-chip.on{background:var(--st-card);color:var(--st-ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.au-chip i{font-style:normal;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--st-hi);color:var(--st-accent)}
+.au-stage{display:grid;grid-template-columns:auto minmax(0,420px);gap:clamp(32px,6vw,72px);justify-content:center;align-items:center;margin-top:clamp(28px,4vw,44px)}
+.phone{width:390px;height:844px;border-radius:56px;padding:10px;background:#0b0d10;box-shadow:0 0 0 1.5px #3a3d42,0 40px 90px rgba(0,0,0,.25);max-width:calc(100vw - 44px)}
+.phone-in{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;background:var(--b-bg)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:9}
+.sbar{position:absolute;top:0;left:0;right:0;height:52px;display:flex;justify-content:space-between;align-items:center;padding:4px 32px 0;font:600 15px -apple-system,system-ui,sans-serif;color:var(--b-ink);z-index:8;pointer-events:none}
+.au-pn{background:var(--st-ground);border-radius:28px;padding:clamp(26px,3.5vw,38px)}
+.au-pn-k{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--st-ink)}
+.au-pn-k i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-pn-k.au-ctx{color:var(--st-ink2)}.au-pn-k.au-ctx i{background:var(--st-ink3);box-shadow:none}
+.au-pn-t{font-size:clamp(24px,2.6vw,30px);line-height:1.12;font-weight:700;letter-spacing:-.028em;margin:10px 0 14px;text-wrap:balance}
+.au-pn-h{margin:0;font-size:17px;line-height:1.55;color:var(--st-ink2)}
+.au-pn-h b{color:var(--st-ink);font-weight:600}
+.au-pn-o{margin-top:24px;padding-top:22px;border-top:1px solid var(--st-hair)}
+.au-pn-o .au-lab{font-size:13px;font-weight:600;color:var(--st-ink3)}
+.au-pn-o .au-val{font-size:clamp(38px,4.4vw,50px);font-weight:700;letter-spacing:-.04em;line-height:1.05;color:var(--st-accent);margin-top:6px;font-variant-numeric:tabular-nums}
+.au-pn-o .au-sub{font-size:14px;color:var(--st-ink2);margin-top:4px}
+.au-pn-a{margin:18px 0 0;font-size:14px;line-height:1.5;color:var(--st-ink2)}
+.au-pn-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;padding-top:18px;border-top:1px solid var(--st-hair);font-size:13px;color:var(--st-ink3)}
+.au-pn-nav button{background:var(--st-card);border:0;border-radius:980px;padding:8px 15px;font-size:14px;font-weight:500;color:var(--st-ink);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.au-pn-nav button:disabled{opacity:.35;cursor:default}
+.au-hint{text-align:center;font-size:14px;color:var(--st-ink3);margin:22px 0 0}
+
+/* footer */
+.au-foot{padding-block:56px 72px;border-top:1px solid var(--st-hair)}
+.au-foot details{border-bottom:1px solid var(--st-hair);padding-bottom:18px}
+.au-foot summary{cursor:pointer;font-size:17px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.au-foot summary::-webkit-details-marker{display:none}
+.au-foot summary::after{content:"+";font-size:24px;font-weight:300;color:var(--st-ink2)}
+.au-foot details[open] summary::after{content:"−"}
+.au-srcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 48px;margin-top:18px}
+.au-srcs h4{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--st-ink3);margin:18px 0 6px}
+.au-srcs dl{margin:0}.au-srcs dt{font-size:14.5px;font-weight:600;margin-top:10px}
+.au-srcs dd{margin:3px 0 0;font-size:14px;line-height:1.5;color:var(--st-ink2)}
+.au-fine{font-size:12.5px;line-height:1.6;color:var(--st-ink3);margin:22px 0 0;max-width:80ch}
+.au-cta-line{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:36px}
+.au-cta-line p{margin:0;font-size:clamp(19px,2.2vw,24px);font-weight:600;letter-spacing:-.02em;max-width:34ch}
+
+@media (max-width:900px){
+  .au-split,.au-band{grid-template-columns:1fr}
+  .au-notes{grid-template-columns:1fr}
+  .au-idea{grid-template-columns:40px 1fr}
+  .au-imp{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:10px}
+  .au-imp .au-l{margin:0}
+  .au-imp .au-v{white-space:nowrap}
+  .au-stage{grid-template-columns:1fr;justify-items:center}
+  .au-pn{width:100%;max-width:520px}
+  .au-srcs{grid-template-columns:1fr}
+}
+@media (max-width:560px){.au-stats{grid-template-columns:1fr}.au-stat{padding:22px 0 0}.au-nums{flex-direction:column;gap:18px}}
+
+/* ================= extras (audit side): video, language, phone view + QR, paywall today vs proposed, ?tour ================= */
+[hidden]{display:none!important}
+/* the device never scrolls: off-screen slides would otherwise make it scrollable by focus / scrollIntoView */
+.phone-in,.scr{overflow:clip}
+/* hero: walkthrough link */
+.au-play::before{content:"▶";font-size:.72em;margin-right:7px;position:relative;top:-1px}
+/* video dialog */
+.au-vid{border:0;padding:0;background:transparent;max-width:min(1120px,94vw);width:100%;overflow:visible}
+.au-vid::backdrop{background:rgba(0,0,0,.74);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.au-vid-in{background:#000;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.au-vid video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.au-vid-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 4px 0;font-size:14px}
+.au-vid-bar a{color:#fff;opacity:.85}
+.au-vid-x{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:980px;padding:8px 16px;font-size:14px;cursor:pointer}
+/* language switch */
+.au-langrow{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px 0 0;font-size:13.5px;color:var(--st-ink2);flex-wrap:wrap}
+.au-lsw{display:inline-flex;gap:2px;padding:3px;background:var(--st-ground);border-radius:980px}
+.au-lsw button{border:0;background:none;padding:6px 13px;border-radius:980px;font-size:13.5px;font-weight:500;color:var(--st-ink2);cursor:pointer;white-space:nowrap}
+.au-lsw button.on{background:var(--st-card);color:var(--st-ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+/* QR card (desktop) / full-screen button (phone) */
+.au-qr{display:flex;align-items:center;gap:18px;margin:26px auto 0;max-width:500px;background:var(--st-ground);border-radius:22px;padding:14px 22px 14px 14px}
+.au-qr img{width:112px;height:112px;border-radius:12px;image-rendering:pixelated;flex:none;background:#fff}
+.au-qr b{display:block;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.au-qr p{margin:4px 0 0;font-size:14.5px;line-height:1.45;color:var(--st-ink2)}
+.au-mobw{display:none;text-align:center;margin-top:22px}
+@media (max-width:900px){.au-qr{display:none}.au-mobw{display:block}}
+/* paywall: today vs proposed */
+.au-cmp{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr) minmax(0,290px);gap:clamp(24px,4vw,52px);align-items:center;margin-top:clamp(32px,5vw,52px)}
+.au-cmp figure{margin:0;text-align:center}
+.au-cmp figure img{display:block;width:100%;height:auto;filter:drop-shadow(0 24px 44px rgba(0,0,0,.18))}
+.au-cmp figcaption{margin-top:14px;font-size:15px;font-weight:600}
+.au-cmp figcaption span{color:var(--st-ink2);font-weight:400}
+.au-cmp-go{border:0;padding:0;background:none;cursor:pointer;display:block;width:100%;transition:transform .3s}
+.au-cmp-go:hover{transform:translateY(-4px)}
+.au-chg{list-style:none;margin:0;background:var(--st-card);border-radius:24px;padding:4px clamp(18px,2.4vw,28px)}
+.au-chg li{padding:15px 0;border-top:1px solid var(--st-hair)}
+.au-chg li:first-child{border-top:0}
+.au-chg h4{margin:0 0 7px;font-size:16px;font-weight:600;letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.au-chg h4 i{font-style:normal;font-size:12px;font-weight:600;color:var(--st-accent);background:var(--st-mark);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.au-was,.au-now{display:grid;grid-template-columns:78px 1fr;gap:8px;font-size:14.5px;line-height:1.42}
+.au-was{color:var(--st-ink3)}
+.au-now{color:var(--st-ink);margin-top:3px}
+.au-was em,.au-now em{font-style:normal;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+.au-now em{color:var(--st-link)}
+.au-kept{margin:22px 0 0;font-size:14px;color:var(--st-ink2);text-align:center}
+@media (max-width:900px){.au-cmp{grid-template-columns:1fr 1fr;gap:18px}.au-chg{grid-column:1 / -1;order:3}.au-was,.au-now{grid-template-columns:70px 1fr}}
+
+/* ?app — the prototype full screen on a real phone, with a bar that opens the idea panel */
+html.appmode,html.appmode body{height:100%;overflow:hidden;background:#000}
+html.appmode .au-nav,html.appmode .au-top-hero,html.appmode #why,html.appmode #ideas,html.appmode #compare,html.appmode .au-foot,
+html.appmode .au-proto-h,html.appmode #prototype .au-langrow,html.appmode #chips,html.appmode .au-hint,html.appmode .au-qr,html.appmode .au-mobw{display:none!important}
+html.appmode #prototype{padding:0;background:#000}
+html.appmode #prototype .au-wrap{padding:0;max-width:none}
+html.appmode .au-stage{display:block;margin:0}
+html.appmode .phone{position:fixed;top:0;left:0;right:0;margin:0 auto;width:min(100%,480px);height:calc(100% - 56px - env(safe-area-inset-bottom,0px));max-width:none;border-radius:0;padding:0;box-shadow:none;background:#000}
+html.appmode .phone-in{border-radius:0}
+html.appmode .island,html.appmode .sbar{display:none}
+html.appmode .scr .s-pad{padding-top:max(58px,calc(env(safe-area-inset-top,0px) + 16px))}
+html.appmode .scr .s-x,html.appmode .scr .s-lang{top:max(54px,calc(env(safe-area-inset-top,0px) + 10px))}
+.au-appbar,.au-scrim{display:none}
+html.appmode .au-appbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;height:calc(56px + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px) 16px;align-items:center;gap:12px;background:#0b0b0c;border-top:1px solid rgba(255,255,255,.1);color:#fff}
+.au-ab-why{flex:1;min-width:0;display:flex;align-items:center;gap:9px;background:none;border:0;color:#fff;font-size:14px;font-weight:500;text-align:left;cursor:pointer;padding:0}
+.au-ab-why i{width:8px;height:8px;border-radius:50%;background:var(--st-hi);flex:none}
+.au-ab-why span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.au-ab-why em{font-style:normal;color:rgba(255,255,255,.6);margin-left:auto;flex:none;font-size:13px}
+.au-appbar .au-lsw{background:rgba(255,255,255,.12)}
+.au-appbar .au-lsw button{color:rgba(255,255,255,.75);padding:5px 11px}
+.au-appbar .au-lsw button.on{background:#fff;color:#000}
+html.appmode #panel{position:fixed;left:0;right:0;bottom:0;z-index:80;max-width:none;width:auto;margin:0 auto;border-radius:24px 24px 0 0;max-height:78%;overflow:auto;transform:translateY(105%);transition:transform .3s cubic-bezier(.3,.7,.2,1);padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}
+html.appmode.au-open #panel{transform:none}
+html.appmode.au-open .au-scrim{display:block;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,.5)}
+
+/* ?tour — 1280×720 walkthrough frames (record-video.sh renders them into assets/walkthrough.mp4) */
+.au-tour{display:none}
+html.tourmode,html.tourmode body{overflow:hidden;background:var(--st-ground)}
+html.tourmode body *{visibility:hidden}
+html.tourmode .phone,html.tourmode .phone *,html.tourmode .au-tour,html.tourmode .au-tour *{visibility:visible}
+html.tourmode .phone{position:fixed;left:170px;top:44px;margin:0;transform:scale(.755);transform-origin:0 0;box-shadow:0 0 0 1.5px #3a3d42,0 34px 80px rgba(0,0,0,.22);z-index:5;max-width:none}
+html.tourmode .au-tour{display:block;position:fixed;inset:0;z-index:6;pointer-events:none;color:var(--st-ink)}
+.au-tb{position:absolute;left:590px;top:30px;display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600}
+.au-tb img{width:26px;height:26px;border-radius:7px}
+.au-tb small{font-size:16px;font-weight:400;color:var(--st-ink2)}
+.au-tby{position:absolute;right:48px;top:32px;font-size:14px;color:var(--st-ink3)}
+.au-tcap{position:absolute;left:590px;right:60px;top:50%;transform:translateY(-50%)}
+.au-tk{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:600}
+.au-tk i{width:9px;height:9px;border-radius:50%;background:var(--st-hi);box-shadow:0 0 0 3px var(--st-mark)}
+.au-tk.au-ctx{color:var(--st-ink2)}.au-tk.au-ctx i{background:var(--st-ink3);box-shadow:none}
+.au-tt{font-size:46px;line-height:1.06;font-weight:700;letter-spacing:-.035em;margin:14px 0 14px;text-wrap:balance}
+.au-tl{font-size:23px;line-height:1.36;color:var(--st-ink2);letter-spacing:-.01em;margin:0;max-width:28ch}
+.au-to{margin-top:28px;padding-top:22px;border-top:1px solid var(--st-hair)}
+.au-to small{display:block;font-size:14px;font-weight:600;color:var(--st-ink3)}
+.au-to b{display:inline-block;font-size:62px;font-weight:700;letter-spacing:-.045em;line-height:1.08;color:var(--st-accent);margin-top:4px}
+.au-to span{display:block;font-size:16px;color:var(--st-ink2);margin-top:2px}
+.au-tprog{position:absolute;left:48px;right:48px;bottom:22px;height:4px;border-radius:3px;background:var(--st-hair);overflow:hidden}
+.au-tprog i{display:block;height:100%;background:var(--st-hi)}
+.au-ttap{position:absolute;left:0;top:0;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 0 0 2.5px rgba(255,255,255,.9),0 6px 16px rgba(0,0,0,.35);opacity:0}
+.au-tintro,.au-tend{position:absolute;inset:0;background:var(--st-ground);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0}
+.au-tintro .au-lede{margin-top:18px}
+.au-te-h{font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.035em;margin:0;max-width:18ch;text-wrap:balance}
+.au-te-n{display:flex;gap:64px;margin-top:30px}
+.au-te-n small{display:block;font-size:14px;color:var(--st-ink2)}
+.au-te-n b{display:block;font-size:76px;font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--st-accent);margin:4px 0 6px}
+.au-te-n span{font-size:15px;color:var(--st-ink2)}
+.au-te-q{display:flex;align-items:center;gap:18px;margin-top:34px;background:var(--st-card);border-radius:20px;padding:12px 24px 12px 12px;text-align:left}
+.au-te-q img{width:104px;height:104px;border-radius:10px;image-rendering:pixelated}
+.au-te-q b{display:block;font-size:18px;font-weight:600}
+.au-te-q span{display:block;font-size:15px;color:var(--st-link);margin-top:3px}
+.au-te-f{position:absolute;bottom:44px;left:0;right:0;font-size:13px;color:var(--st-ink3);margin:0}
+
+/* Frifor extras (audit side): the offer switch in the panel */
+.au-ofr{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.au-ofr span{flex-basis:100%;font-weight:600;color:var(--st-ink)}
+.au-ofr button{border:1px solid var(--st-hair);background:var(--st-card);border-radius:980px;padding:6px 12px;font-size:13.5px;color:var(--st-ink);cursor:pointer}
+.au-ofr button.on{background:var(--st-accent);border-color:var(--st-accent);color:#fff}
+html.appmode .au-pn{background:var(--st-ground)}
+
+/* ---------- screen engine (layout only, no colours) ---------- */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--b-bg);color:var(--b-ink);font-family:var(--b-font);
+     transform:translateX(100%);transition:transform .32s cubic-bezier(.3,.7,.2,1);overflow:hidden;text-align:left;line-height:normal;font-size:16px}
+.scr.is-active{transform:none;z-index:2}.scr.is-past{transform:translateX(-28%)}.scr.under{transform:none;z-index:1}
+.scr.sheet{transform:translateY(100%)}.scr.sheet.is-active{transform:none}
+.nofx,.nofx *{transition:none!important}
+.shot .scr{transition:none!important}
+/* ?phone — just the device at (10,10), for shoot.sh and hero-stills.sh (&clear = transparent ground) */
+.phoneonly body{background:#141615}
+.phoneonly.clear body{background:transparent}
+.phoneonly body *{visibility:hidden}
+.phoneonly .phone,.phoneonly .phone *{visibility:visible}
+.phoneonly .phone{position:fixed;top:10px;left:10px;z-index:99;box-shadow:none;max-width:none;margin:0}
+
+/* SCREENS:START — Frifor's screens: a forest header with the mono wordmark, a limestone sheet with a drag
+   handle (their product, search and preference sheets), sand chips, leaf for yes, clay for what you avoid. */
+.scr{font-family:var(--b-font);color:var(--b-ink)}
+.f-dk{background:var(--b-forest)}
+.s-pad{flex:none;height:98px;padding:56px 22px 0;box-sizing:border-box;display:flex;align-items:flex-start;justify-content:center;position:relative}
+.f-wm{font:500 17px var(--b-font);color:var(--b-bg);letter-spacing:.02em;line-height:30px}
+.f-bk{position:absolute;left:14px;top:52px;background:none;border:0;color:var(--b-bg);font:400 30px/34px var(--b-font);cursor:pointer;padding:0 8px}
+.s-x{position:absolute;right:14px;top:52px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:var(--b-bg);font:500 16px var(--b-font);cursor:pointer;z-index:4}
+.s-lang{position:absolute;right:16px;top:55px;border:1.5px solid rgba(255,255,255,.5);background:none;color:var(--b-bg);border-radius:var(--b-pill);font:500 12px var(--b-font);padding:4px 10px;cursor:pointer;z-index:4}
+.f-sh{flex:1;min-height:0;background:var(--b-bg);border-radius:26px 26px 0 0;padding:10px 22px 24px;display:flex;flex-direction:column;gap:12px;position:relative}
+.f-hd{flex:none;align-self:center;width:38px;height:5px;border-radius:3px;background:var(--b-line);margin-bottom:4px}
+.f-pg{flex:none;display:flex;gap:5px;margin-bottom:2px}.f-pg i{flex:1;height:4px;border-radius:2px;background:var(--b-line)}.f-pg i.f-y{background:var(--b-primary)}
+.f-h{font:600 25px/1.14 var(--b-font);letter-spacing:-.015em;margin:2px 0 0;color:var(--b-ink)}
+.f-k{font:600 14px var(--b-font);color:var(--b-primary);margin:4px 0 0}
+.f-p{font:400 14.5px/1.45 var(--b-font);color:var(--b-ink);margin:0}
+.f-s{font:400 13px/1.4 var(--b-font);color:var(--b-ink2);margin:0}
+.f-cta{flex:none;margin-top:auto;width:100%;border:0;border-radius:var(--b-pill);background:var(--b-primary);color:var(--b-primary-ink);font:600 16.5px var(--b-font);padding:16px 18px;cursor:pointer}
+.f-cta2{flex:none;width:100%;border:0;border-radius:var(--b-pill);background:var(--b-surface);color:var(--b-ink);font:600 15px var(--b-font);padding:14px;cursor:pointer}
+.f-skip{flex:none;align-self:center;background:none;border:0;color:var(--b-ink2);font:500 14px var(--b-font);cursor:pointer;padding:2px 8px}
+
+/* welcome */
+.f-ph{flex:1;min-height:0;position:relative;overflow:hidden}
+.f-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.f-ph::after{content:"";position:absolute;left:0;right:0;bottom:0;height:38%;background:linear-gradient(transparent,var(--b-forest))}
+.f-wb{flex:none;padding:6px 24px 28px;display:flex;flex-direction:column;gap:12px;background:var(--b-forest)}
+.f-big{font:600 40px/1.02 var(--b-font);color:var(--b-bg);margin:0;letter-spacing:-.01em}
+.f-big em{font-style:italic;font-weight:700}
+.f-ws{font:400 15px/1.45 var(--b-font);color:var(--b-line);margin:0}
+.f-rt{font:500 13.5px var(--b-font);color:var(--b-line);margin:0;display:flex;align-items:center;gap:8px}
+.f-st{color:var(--b-primary);letter-spacing:1px;font-size:13px}
+
+/* quiz rows */
+.f-op{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:var(--b-surface);border:2px solid transparent;border-radius:var(--b-radius);padding:14px 15px;cursor:pointer;font-family:var(--b-font);color:var(--b-ink)}
+.f-op.on{border-color:var(--b-ink);background:var(--b-limestone2)}
+.f-op b{display:block;font:600 16px var(--b-font)}
+.f-op small{display:block;font:400 13px/1.35 var(--b-font);color:var(--b-ink2);margin-top:2px}
+.f-ic{flex:none;width:38px;height:38px;border-radius:50%;background:var(--b-bg);display:grid;place-items:center}
+.f-ic svg{width:20px;height:20px;fill:none;stroke:var(--b-ink);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.f-ck{flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--b-ink2);display:grid;place-items:center;font:700 11px var(--b-font);color:transparent;box-sizing:border-box}
+.on>.f-ck,.on .f-ck{background:var(--b-ink);border-color:var(--b-ink);color:var(--b-bg)}
+/* Prioriteringer list — their circle checks, mono labels, info marks */
+.f-pr{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--b-line);padding:11px 2px;cursor:pointer;text-align:left;color:var(--b-ink)}
+.f-pr .f-prl{flex:1;font:400 14px var(--b-font)}
+.f-pr i{font-style:normal;flex:none;width:17px;height:17px;border-radius:50%;border:1.3px solid var(--b-ink2);color:var(--b-ink2);display:grid;place-items:center;font:600 10px var(--b-font)}
+/* allergen chips */
+.f-pls{display:flex;flex-wrap:wrap;gap:8px}
+.f-pl{border:0;background:var(--b-surface);color:var(--b-ink);border-radius:var(--b-pill);font:400 14px var(--b-font);padding:8px 13px;cursor:pointer}
+.f-pl.on{background:var(--b-primary);color:var(--b-primary-ink)}
+
+/* the compass */
+.f-cmp{display:flex;align-items:center;gap:18px;background:var(--b-forest);border-radius:20px;padding:16px 18px;color:var(--b-bg)}
+.f-ring{flex:none;width:86px;height:86px;position:relative}
+.f-ring svg{width:86px;height:86px;transform:rotate(-90deg)}
+.f-ring b{position:absolute;inset:0;display:grid;place-items:center;font:700 28px var(--b-font);color:var(--b-bg)}
+.f-cmp p{margin:0;font:400 14px/1.4 var(--b-font);color:var(--b-line)}
+.f-cmp p b{display:block;font:600 16px var(--b-font);color:var(--b-bg);margin-bottom:3px}
+.f-row{border-bottom:1px solid var(--b-line);padding-bottom:12px}
+.f-rl{font:italic 400 13px var(--b-font);color:var(--b-ink2);margin:0 0 8px}
+.f-tg{display:inline-block;font:400 13px var(--b-font);border-radius:var(--b-pill);padding:5px 11px;margin:0 6px 6px 0;background:var(--b-surface);color:var(--b-ink)}
+.f-tg.f-no{background:var(--b-accent2);color:var(--b-ink)}
+.f-tg.f-yes{background:var(--b-primary);color:var(--b-primary-ink)}
+.f-tg.f-hp{background:var(--b-rose);color:var(--b-ink)}
+
+/* product search */
+.f-se{display:flex;align-items:center;gap:10px;background:var(--b-surface);border-radius:var(--b-pill);padding:12px 16px;font:400 14px var(--b-font);color:var(--b-ink2)}
+.f-se svg{width:17px;height:17px;fill:none;stroke:var(--b-ink2);stroke-width:2;stroke-linecap:round}
+.f-res{display:flex;align-items:center;gap:13px;width:100%;background:none;border:0;border-bottom:1px solid var(--b-line);padding:12px 0;text-align:left;cursor:pointer;color:var(--b-ink);font-family:var(--b-font)}
+.f-th{flex:none;width:54px;height:54px;border-radius:50%;background:var(--b-surface);display:grid;place-items:center;font:600 15px var(--b-font);color:var(--b-ink2)}
+.f-res small{display:block;font:400 11.5px var(--b-font);color:var(--b-ink2)}
+.f-res b{display:block;font:600 15.5px/1.2 var(--b-font);margin:1px 0 6px}
+.f-res .f-tg{font-size:11.5px;padding:3px 8px;margin:0 4px 0 0}
+.f-chev{flex:none;margin-left:auto;font:400 22px var(--b-font);color:var(--b-ink)}
+
+/* product sheet */
+.f-pn{font:600 23px/1.15 var(--b-font);margin:0;letter-spacing:-.01em}
+.f-vd{flex:none;border-radius:var(--b-pill);padding:12px;text-align:center;font:600 16px var(--b-font);background:var(--b-accent2);color:var(--b-ink)}
+.f-vd.f-ok{background:var(--b-primary);color:var(--b-primary-ink)}
+.f-sum{background:var(--b-surface);border-radius:14px;padding:12px 14px;font:400 14.5px/1.55 var(--b-font);margin:0}
+.f-sum b{font-weight:600}
+.f-sum .f-hit{background:var(--b-accent2);border-radius:6px;padding:1px 6px;font-weight:600}
+.f-mk{background:var(--b-coral);border-radius:14px;padding:11px 14px;margin:0;font:400 13px/1.5 var(--b-font);color:var(--b-ink)}
+.f-mk b{display:block;font:600 13px var(--b-font);color:var(--b-redtext);margin-bottom:3px}
+.f-mk ol{margin:0;padding-left:18px}
+.f-nut{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.f-nut div{background:var(--b-surface);border-radius:12px;padding:8px 10px}
+.f-nut b{display:block;font:600 16px var(--b-font)}
+.f-nut span{font:400 11.5px var(--b-font);color:var(--b-ink2)}
+.f-alt{display:flex;gap:8px}
+.f-alt div{flex:1;background:var(--b-surface);border-radius:12px;padding:6px;height:66px;display:grid;place-items:center}
+.f-alt img{max-width:100%;max-height:54px;mix-blend-mode:multiply}
+
+.f-agl .f-tg{margin:0 5px 0 0;font-size:12.5px;padding:4px 10px}
+.f-agl small{font:italic 400 12px var(--b-font);color:var(--b-ink2)}
+.f-pq{margin-top:auto;background:var(--b-surface);border-radius:14px;padding:8px 13px;display:flex;flex-direction:column;gap:2px}
+.f-pq .f-st{font-size:12px}
+.f-pq p{margin:0;font:italic 500 13.5px/1.32 var(--b-font);color:var(--b-ink)}
+.f-pq small{font:400 11.5px var(--b-font);color:var(--b-ink2)}
+.f-pq+.f-cta{margin-top:0}
+/* reviews */
+.f-rv{background:var(--b-line)}
+.f-rv .f-sh{background:var(--b-line)}
+.f-score{display:flex;align-items:center;gap:14px}
+.f-score b{font:700 46px/1 var(--b-font);letter-spacing:-.03em}
+.f-score span{font:400 13.5px/1.4 var(--b-font);color:var(--b-ink2)}
+.f-score em{display:block;font-style:normal;color:var(--b-ink);letter-spacing:2px;font-size:16px}
+.f-rc{background:var(--b-bg);border-radius:20px;padding:13px 16px}
+.f-rc b{display:block;font:600 15.5px var(--b-font)}
+.f-rc small{display:block;font:400 12.5px var(--b-font);color:var(--b-ink2);margin:3px 0 5px}
+.f-rc small i{font-style:normal;color:var(--b-ink);letter-spacing:1px}
+.f-rc p{margin:0;font:400 13.5px/1.42 var(--b-font);color:var(--b-ink2)}
+.f-db{font:500 13px var(--b-font);color:var(--b-ink);text-align:center;margin:0}
+
+/* paywall */
+.f-pw{flex:none;padding:0 24px 13px}
+.f-pwt{font:600 34px/1.02 var(--b-font);color:var(--b-bg);margin:0;letter-spacing:-.01em}
+.f-pwt em{font-style:italic;font-weight:700;color:var(--b-primary)}
+.f-pwc{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px}
+.f-pwc .f-tg{margin:0;font-size:12px;padding:4px 9px;background:rgba(255,255,255,.12);color:var(--b-bg)}
+.f-pwc .f-tg.f-no{background:var(--b-accent2);color:var(--b-ink)}
+.f-bn{display:flex;flex-direction:column;gap:5px;margin:0}
+.f-pws{gap:8px;padding:13px 22px 16px}
+.f-bn div{display:flex;gap:9px;align-items:flex-start;font:400 13.5px/1.3 var(--b-font)}
+.f-bn div::before{content:"✓";flex:none;width:18px;height:18px;border-radius:50%;background:var(--b-primary);color:var(--b-primary-ink);font:700 10px/18px var(--b-font);text-align:center}
+.f-pc{position:relative;display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--b-bg);border:1.5px solid var(--b-line);border-radius:var(--b-radius);padding:10px 14px;cursor:pointer;color:var(--b-ink);font-family:var(--b-font)}
+.f-pc.on{border:2px solid var(--b-ink);background:var(--b-limestone2)}
+.f-pc b{display:block;font:600 16px var(--b-font)}
+.f-pc small{display:block;font:400 12.5px var(--b-font);color:var(--b-ink2);margin-top:1px}
+.f-pc .f-pp{margin-left:auto;text-align:right;font:600 16px var(--b-font);white-space:nowrap}
+.f-pc .f-pp small{white-space:nowrap}
+.f-bdg{position:absolute;top:-10px;right:14px;background:var(--b-primary);color:var(--b-primary-ink);font:600 11.5px var(--b-font);border-radius:var(--b-pill);padding:3px 10px;white-space:nowrap}
+.f-tl{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--b-line);margin:2px 0 0 8px;padding-left:14px}
+.f-tl div{position:relative;font:400 12.5px/1.3 var(--b-font);color:var(--b-ink2);padding:1px 0 3px}
+.f-tl div b{color:var(--b-ink);font-weight:600}
+.f-tl div::before{content:"";position:absolute;left:-21px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--b-primary);border:1px solid var(--b-bg)}
+.f-tl div+div::before{background:var(--b-line)}
+.f-tr{font:500 12.5px var(--b-font);color:var(--b-ink2);text-align:center;margin:-2px 0 0}
+.f-lg{display:flex;justify-content:center;gap:16px;font:400 11.5px var(--b-font);color:var(--b-ink2)}
+
+/* offer on close: a sheet over the paywall */
+.f-of{background:rgba(0,0,0,.45);justify-content:flex-end}
+.f-oc{background:var(--b-bg);border-radius:26px 26px 0 0;padding:10px 24px 28px;display:flex;flex-direction:column;gap:12px;position:relative}
+.f-oc .s-x{top:16px;right:16px;background:var(--b-surface);color:var(--b-ink)}
+.f-ob{display:flex;flex-direction:column;gap:12px}
+.f-big2{font:600 30px/1.04 var(--b-font);margin:6px 40px 0 0;letter-spacing:-.01em}
+.f-big2 em{font-style:italic;font-weight:700}
+.f-ox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--b-forest);color:var(--b-bg);border-radius:18px;padding:15px 18px}
+.f-ox b{font:600 22px var(--b-font);white-space:nowrap}
+.f-ox span{font:400 13px/1.35 var(--b-font);color:var(--b-line)}
+
+/* the paywall today (rebuilt from the listing, aside) */
+.f-tdh{flex:none;padding:12px 24px 22px}
+.f-tdp{display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--b-surface);border:1.5px solid var(--b-line);border-radius:var(--b-radius);padding:15px 16px;font:500 15px var(--b-font);color:var(--b-ink);text-align:left}
+.f-tdp.on{border:2px solid var(--b-ink)}
+.f-tdp b{font-weight:600;white-space:nowrap}
+/* SCREENS:END */
+</style>
+</head>
+<body>
+
+<nav class="au-nav" aria-label="Sections">
+  <div class="au-nav-in">
+    <div class="au-brand">
+      <img src="assets/brand/appstore-icon.jpg" alt="">
+      <span>Growth Audit <small>· Frifor</small></span>
+    </div>
+    <a class="au-opt" href="#why">Why this</a>
+    <a href="#ideas">Five ideas</a>
+    <a href="#prototype">Prototype</a>
+    <a class="au-opt" href="#compare" id="navCompare" hidden>Paywall</a>
+  </div>
+</nav>
+
+<header class="au-top-hero" id="top">
+  <div class="au-wrap">
+    <p class="au-eyebrow"><i></i>Growth Audit · October 2026</p>
+    <h1 class="au-display">Frifor</h1>
+    <p class="au-lede">Five ideas to turn more first scans into subscribers. <span>Each one built into your own onboarding, so you can tap through it.</span></p>
+    <p class="au-byline">Prepared by Adapty for the Frifor team</p>
+    <div class="au-ctas">
+      <a class="au-btn" href="#ideas">See the five ideas</a>
+      <a class="au-lnk" href="#prototype">Open the prototype</a>
+      <button type="button" class="au-lnk au-play" id="heroVideo" hidden>Watch the 30-second walkthrough</button>
+    </div>
+  </div>
+  <!-- filled from CONTENT.hero: three screen ids → assets/hero/<id>.png (make them with hero-stills.sh) -->
+  <div class="au-phones" id="heroPhones" aria-label="Three screens from the prototype"></div>
+</header>
+
+<section class="au-sec au-white" id="why">
+  <div class="au-wrap">
+    <div class="au-split">
+      <div>
+        <p class="au-kicker">Why you’re seeing this</p>
+        <h2 class="au-h2">30,000 subscription apps taught us what moves conversion. <span>Here’s what we’d test first at Frifor.</span></h2>
+      </div>
+      <div>
+        <p>Adapty runs subscriptions for <b>more than 30,000 apps</b>, so we see which onboarding and paywall changes lift revenue across the whole market, not just inside one app.</p>
+        <p>We pointed that at Frifor. We took <b>your own screens, copy and prices</b> from your App Store listing and site, and rebuilt the path from install to paywall around the five ideas with the most potential.</p>
+      </div>
+    </div>
+    <div class="au-stats">
+      <div class="au-stat"><b>30,000+</b><span>apps run their subscriptions on Adapty</span></div>
+      <div class="au-stat"><b>5</b><span>ideas, each built as a working screen</span></div>
+      <div class="au-stat"><b>0</b><span>changes to your art direction</span></div>
+    </div>
+    <div class="au-notes">
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></div>
+        <h3>Five ideas, not fifteen</h3>
+        <p>We’re not proposing to rebuild every screen. These are the changes with the highest potential, ranked by what we’d test first.</p>
+      </div>
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/></svg></div>
+        <h3>Your design, not ours</h3>
+        <p>Every colour, control and price in the prototype is Frifor’s. We changed the order and what gets shown.</p>
+      </div>
+      <div class="au-note">
+        <div class="au-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13A1.5 1.5 0 0 1 5.5 4H15"/></svg></div>
+        <h3>We hope you haven’t tried these yet</h3>
+        <p>We work from the outside, so we can’t see your live flow or your test history. If you’ve already run one of these, tell us and we’ll go deeper on the rest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="au-sec" id="ideas">
+  <div class="au-wrap">
+    <div class="au-ideas-h">
+      <p class="au-kicker">The shortlist</p>
+      <h2 class="au-h2">Five ideas. <span>Ranked by what we’d test first.</span></h2>
+    </div>
+    <div class="au-list" id="ideaList"></div>
+    <div class="au-band">
+      <div>
+        <p class="au-k">Potential outcome, based on Adapty data</p>
+        <h3>Together they work on three moments: what Frifor asks, what it shows before the price, and what happens when someone closes the paywall.</h3>
+        <p class="au-fn" id="bandFn"></p>
+        <a class="au-btn" href="#prototype">Tap through the prototype</a>
+      </div>
+      <div class="au-nums" id="bandNums"></div>
+    </div>
+  </div>
+</section>
+
+<section class="au-sec au-white" id="prototype">
+  <div class="au-wrap">
+    <div class="au-proto-h">
+      <p class="au-kicker">The prototype</p>
+      <h2 class="au-h2">Every idea, inside your own onboarding.</h2>
+      <p>Tap through it like a new user, or jump straight to an idea. Green numbers mark the screens that carry one.</p>
+    </div>
+    <div class="au-langrow" id="langRow" hidden><span>Prototype language</span><div class="au-lsw" id="langSw" role="group" aria-label="Prototype language"></div></div>
+    <div class="au-seg" id="chips" role="tablist" aria-label="Screens"></div>
+    <div class="au-stage">
+      <div class="phone"><div class="phone-in">
+        <div class="island"></div>
+        <div class="sbar"><span>9:41</span><span>●●● ▮</span></div>
+
+<!-- SCREENS:START — Frifor, in Norwegian (markup) with English in CONTENT.i18n.en.
+     Kept from their listing/site: the scan photo, "Vet du hva maten din inneholder?", the Prioriteringer list,
+     the 14-allergen picker, product search, the product sheet modules, their reviews card, "Prøv gratis i 7 dager".
+     data-aside "today" = the paywall as far as the listing shows it, for the side-by-side only. -->
+
+<section class="scr f-dk" data-id="welcome">
+  <div class="s-pad"><span class="f-wm">frifor</span><button class="s-lang" data-langtoggle aria-label="Språk"><span data-t="w_lang">NO · EN</span></button></div>
+  <div class="f-ph"><img src="assets/crop/scan-photo.jpg" alt=""></div>
+  <div class="f-wb">
+    <h1 class="f-big cnd"><span data-t="w_h">Vet du hva maten din <em>inneholder</em>?</span></h1>
+    <p class="f-ws" data-t="w_sub">Skann strekkoden, så oppsummerer appen varen i én setning.</p>
+    <p class="f-rt"><span class="f-st">★★★★★</span><span data-t="w_rate">4,4 · 805 vurderinger på App Store</span></p>
+    <button class="f-cta" data-go="goal"><span data-t="w_cta">Kom i gang</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="goal">
+  <div class="s-pad"><button class="f-bk" data-back aria-label="Tilbake">‹</button><span class="f-wm">frifor</span></div>
+  <div class="f-sh">
+    <i class="f-hd"></i>
+    <div class="f-pg"><i class="f-y"></i><i></i><i></i></div>
+    <h1 class="f-h" data-t="g_h">Hva vil du bruke Frifor til?</h1>
+    <p class="f-s" data-t="g_sub">Vi setter opp kompasset ditt etter svaret.</p>
+    <button class="f-op" data-pick="goal:allergi" data-advance="prio">
+      <span class="f-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+      <span><b data-t="g_a">Allergi og behov</b><small data-t="g_as">Følg med på de 14 allergenene</small></span>
+    </button>
+    <button class="f-op" data-pick="goal:ren" data-advance="prio">
+      <span class="f-ic"><svg viewBox="0 0 24 24"><path d="M6 3h12M8 3v6l-4 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-4-9V3"/><path d="M7 14h10"/></svg></span>
+      <span><b data-t="g_b">Unngå ultraprosessert mat</b><small data-t="g_bs">Se hva som er ultraprosessert, og hvorfor</small></span>
+    </button>
+    <button class="f-op" data-pick="goal:maal" data-advance="prio">
+      <span class="f-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg></span>
+      <span><b data-t="g_c">Har et mål</b><small data-t="g_cs">Sammenlign varer og finn alternativer</small></span>
+    </button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="prio">
+  <div class="s-pad"><button class="f-bk" data-back aria-label="Tilbake">‹</button><span class="f-wm">frifor</span></div>
+  <div class="f-sh">
+    <i class="f-hd"></i>
+    <div class="f-pg"><i class="f-y"></i><i class="f-y"></i><i></i></div>
+    <h1 class="f-h" data-t="p_h">Prioriteringer</h1>
+    <p class="f-s" data-t="p_sub">Vil du at vi skal fremheve noen av disse tingene?</p>
+    <div>
+      <button class="f-pr" data-toggle="prio:ultra"><span class="f-ck">✓</span><span class="f-prl" data-t="p_1">Ultraprosessering</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:egne"><span class="f-ck">✓</span><span class="f-prl" data-t="p_2">Egne merkevarer</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:fro"><span class="f-ck">✓</span><span class="f-prl" data-t="p_3">Frøoljer</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:hyper"><span class="f-ck">✓</span><span class="f-prl" data-t="p_4">Hypervelsmakende mat</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:makro"><span class="f-ck">✓</span><span class="f-prl" data-t="p_5">Makronæringsstoffer</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:bovaer"><span class="f-ck">✓</span><span class="f-prl" data-t="p_6">Bovaer</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:royk"><span class="f-ck">✓</span><span class="f-prl" data-t="p_7">Røykaroma</span><i>i</i></button>
+      <button class="f-pr" data-toggle="prio:energi"><span class="f-ck">✓</span><span class="f-prl" data-t="p_8">Energitetthet</span><i>i</i></button>
+    </div>
+    <button class="f-cta" data-go="alg"><span data-t="next">Neste</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="alg">
+  <div class="s-pad"><button class="f-bk" data-back aria-label="Tilbake">‹</button><span class="f-wm">frifor</span></div>
+  <div class="f-sh">
+    <i class="f-hd"></i>
+    <div class="f-pg"><i class="f-y"></i><i class="f-y"></i><i class="f-y"></i></div>
+    <h1 class="f-h" data-t="a_h">Velg allergener</h1>
+    <p class="f-s" data-t="a_sub">Marker de allergenene du vil at vi skal fokusere ekstra på.</p>
+    <div class="f-pls">
+      <button class="f-pl" data-toggle="alg:gluten"><span data-t="a_1">Gluten</span></button>
+      <button class="f-pl" data-toggle="alg:skalldyr"><span data-t="a_2">Skalldyr</span></button>
+      <button class="f-pl" data-toggle="alg:egg"><span data-t="a_3">Egg</span></button>
+      <button class="f-pl" data-toggle="alg:fisk"><span data-t="a_4">Fisk</span></button>
+      <button class="f-pl" data-toggle="alg:peanott"><span data-t="a_5">Peanøtter</span></button>
+      <button class="f-pl" data-toggle="alg:soya"><span data-t="a_6">Soya</span></button>
+      <button class="f-pl" data-toggle="alg:melk"><span data-t="a_7">Melk</span></button>
+      <button class="f-pl" data-toggle="alg:notter"><span data-t="a_8">Nøtter</span></button>
+      <button class="f-pl" data-toggle="alg:selleri"><span data-t="a_9">Selleri</span></button>
+      <button class="f-pl" data-toggle="alg:sennep"><span data-t="a_10">Sennep</span></button>
+      <button class="f-pl" data-toggle="alg:sesam"><span data-t="a_11">Sesamfrø</span></button>
+      <button class="f-pl" data-toggle="alg:sulfitt"><span data-t="a_12">Svoveldioksid eller sulfitter</span></button>
+      <button class="f-pl" data-toggle="alg:lupin"><span data-t="a_13">Lupiner</span></button>
+      <button class="f-pl" data-toggle="alg:blotdyr"><span data-t="a_14">Bløtdyr</span></button>
+    </div>
+    <button class="f-cta" data-go="compass"><span data-t="a_cta">Lag kompasset mitt</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="compass">
+  <div class="s-pad"><button class="f-bk" data-back aria-label="Tilbake">‹</button><span class="f-wm">frifor</span></div>
+  <div class="f-sh">
+    <i class="f-hd"></i>
+    <h1 class="f-h" data-t="c_h">Kompasset ditt er klart</h1>
+    <div class="f-cmp">
+      <div class="f-ring"><svg viewBox="0 0 86 86"><circle cx="43" cy="43" r="36" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="9"/><circle class="f-arc" cx="43" cy="43" r="36" fill="none" stroke="var(--b-primary)" stroke-width="9" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="80"/></svg><b class="f-cN">3</b></div>
+      <p><b data-t="c_r">ting Frifor følger med på</b><span data-t="c_rs">Frifor leser ingredienslista med dine øyne, og sier fra før varen havner i kurven.</span></p>
+    </div>
+    <div class="f-row"><p class="f-rl" data-t="c_goal">Du bruker Frifor til</p><span class="f-tg f-yes" data-bind="label:goal"></span></div>
+    <div class="f-row"><p class="f-rl" data-t="c_never">Aldri — sier fra med en gang</p><div class="f-cA"></div></div>
+    <div class="f-row"><p class="f-rl" data-t="c_hl">Fremhev</p><div class="f-cP"></div></div>
+    <button class="f-cta" data-go="try"><span data-t="c_cta">Prøv det på en vare</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="try">
+  <div class="s-pad"><button class="f-bk" data-back aria-label="Tilbake">‹</button><span class="f-wm">frifor</span></div>
+  <div class="f-sh">
+    <i class="f-hd"></i>
+    <h1 class="f-h" data-t="t_h">Produktsøk</h1>
+    <p class="f-p" data-t="t_sub">Velg en vare, så holder Frifor den opp mot kompasset ditt.</p>
+    <div class="f-se"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span data-t="t_ph">Søk etter produkter</span></div>
+    <p class="f-rl" style="margin:6px 0 0" data-t="t_res">Eksempelvarer</p>
+    <button class="f-res" data-pick="prod:kjeks" data-advance="product">
+      <span class="f-th mono">SK</span>
+      <span><small>Eksempelbakeriet</small><b>Sjokoladekjeks med vaniljefyll</b><span class="f-rtag" data-p="kjeks"></span></span>
+      <span class="f-chev">›</span>
+    </button>
+    <button class="f-res" data-pick="prod:notter" data-advance="product">
+      <span class="f-th mono">NM</span>
+      <span><small>Nøtte</small><b>Nøttemiks</b><span class="f-rtag" data-p="notter"></span></span>
+      <span class="f-chev">›</span>
+    </button>
+    <p class="f-s" style="margin-top:auto" data-t="t_db">Over 490 000 produkter fra over 1 300 leverandører.</p>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="product">
+  <div class="s-pad"><span class="f-wm">frifor</span></div>
+  <div class="f-sh" style="gap:10px">
+    <i class="f-hd"></i>
+    <div><p class="f-s f-pbrand">Eksempelbakeriet</p><h1 class="f-pn f-pname">Sjokoladekjeks med vaniljefyll</h1></div>
+    <div class="f-vd">Passer ikke kompasset ditt</div>
+    <p class="f-sum">…</p>
+    <div class="f-mk"><b>…</b><ol></ol></div>
+    <div class="f-agr"><p class="f-rl" style="margin:0 0 6px" data-t="pr_agr">Allergener</p><div class="f-agl"></div></div>
+    <div class="f-nut"></div>
+    <div class="f-alts"><p class="f-rl" style="margin:2px 0 6px" data-t="pr_alt">Gode alternativer</p>
+      <div class="f-alt"><div><img src="assets/site/grogro-rawbar.png" alt="GroGro Råwbar"></div><div><img src="assets/site/helios-dadler.png" alt="Helios Dadler"></div><div><img src="assets/site/gronn-frisk-dadler.png" alt="Grønn &amp; Frisk Dadler med Lakris"></div><div><img src="assets/site/friggs-maiskaker.png" alt="Friggs Maiskaker"></div></div>
+    </div>
+    <button class="f-cta" data-go="proof"><span data-t="pr_cta">Fortsett</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk f-rv" data-id="proof">
+  <div class="s-pad" style="background:var(--b-forest)"><button class="f-bk" data-back aria-label="Tilbake">‹</button><span class="f-wm">frifor</span></div>
+  <div class="f-sh" style="background:var(--b-line);gap:10px">
+    <i class="f-hd" style="background:var(--b-bg)"></i>
+    <div class="f-score"><b data-t="r_sc">4,4</b><span><em>★★★★★</em><span data-t="r_n">805 vurderinger på App Store i Norge</span></span></div>
+    <div class="f-rc"><b>Ett godt hjelpemiddel</b><small><i>★★★★★</i> 22 Aug · Trinethenorwegian</small><p data-t="r_3">Endelig ett godt hjelpemiddel for å finne frem i matjungelen. Lett og oversiktlig app, prisen er god når man tenker over hva man får igjen for det.</p></div>
+    <div class="f-rc"><b>Super fornøyd!</b><small><i>★★★★★</i> 4 Jan · VIPPSELSKER</small><p data-t="r_2">Fantastisk god hjelp for oss som vil holde oss frisk og spise ren mat! Funker lekende lett 🙏🥰</p></div>
+    <div class="f-rc"><b>Anbefales</b><small><i>★★★★★</i> 30 Aug · Arjuna</small><p data-t="r_1">Knallbra, og blir bare bedre og bedre 👏 med stadig flere tilpasningsmuligheter.</p></div>
+    <button class="f-cta" data-go="paywall"><span data-t="r_cta">Fortsett</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="paywall">
+  <div class="s-pad"><span class="f-wm">frifor</span><button class="s-x" data-go="offer" aria-label="Lukk">✕</button></div>
+  <div class="f-pw">
+    <h1 class="f-pwt cnd">Se <em>gluten og melk</em> før det havner i kurven</h1>
+    <div class="f-pwc"></div>
+  </div>
+  <div class="f-sh f-pws">
+    <div class="f-bn">
+      <div><span data-t="pw_b1">Skann så mye du vil. Uten abonnement får du to skanninger.</span></div>
+      <div><span data-t="pw_b2">Allergener og tilsetningsstoffer vist for seg, med det du vil unngå i rødt</span></div>
+      <div><span data-t="pw_b3">Over 490 000 norske produkter, og gode alternativer</span></div>
+    </div>
+    <button class="f-pc" data-pick="plan:year" style="margin-top:5px">
+      <span class="f-bdg" data-t="pw_badge">Rimeligste valg · 30 % billigere</span>
+      <span class="f-ck">✓</span>
+      <span><b data-t="pw_y">Årlig</b><small data-t="pw_ys">7 dager gratis, så 499 kr i året</small></span>
+      <span class="f-pp"><span data-t="pw_yp">41,58 kr</span><small data-t="pw_ypm">i måneden</small></span>
+    </button>
+    <button class="f-pc" data-pick="plan:month">
+      <span class="f-ck">✓</span>
+      <span><b data-t="pw_m">Månedlig</b><small data-t="pw_ms">Ingen binding</small></span>
+      <span class="f-pp"><span data-t="pw_mp">59 kr</span><small data-t="pw_mpm">i måneden</small></span>
+    </button>
+    <div class="f-tl" data-show="plan:year">
+      <div><b data-t="pw_t1">I dag</b> <span data-t="pw_t1s">Full tilgang. Skann alt du handler.</span></div>
+      <div><b data-t="pw_t2">Dag 7</b> <span data-t="pw_t2s">499 kr for ett år. Si opp før, så betaler du ingenting.</span></div>
+    </div>
+    <div class="f-pq"><span class="f-st" style="color:var(--b-ink)">★★★★★</span><p data-t="pw_q">«Prisen er god når man tenker over hva man får igjen for det.»</p><small data-t="pw_qa">Trinethenorwegian · 4,4 fra 805 vurderinger på App Store</small></div>
+    <button class="f-cta" data-go="offer"><span data-show="plan:year"><span data-t="pw_cta">Prøv gratis i 7 dager</span></span><span data-show="plan:month"><span data-t="pw_ctam">Fortsett – 59 kr i måneden</span></span></button>
+    <p class="f-tr"><span data-t="pw_trust">Ingen binding. Si opp når som helst.</span></p>
+    <div class="f-lg"><span data-t="lg_r">Gjenopprett kjøp</span><span data-t="lg_t">Vilkår</span><span data-t="lg_p">Personvern</span></div>
+  </div>
+</section>
+
+<section class="scr sheet f-of" data-id="offer">
+  <div class="f-oc">
+    <i class="f-hd"></i>
+    <button class="s-x" data-go="paywall" aria-label="Lukk">✕</button>
+    <div class="f-ob" data-show="ofr:a">
+      <h1 class="f-big2 cnd"><span data-t="oa_h">Ikke klar for et <em>helt år?</em></span></h1>
+      <p class="f-p" data-t="oa_p">Start med én måned. Full tilgang, skann så mye du vil, og si opp når du vil.</p>
+      <div class="f-ox"><span data-t="oa_x">Full tilgang · ingen binding</span><b data-t="oa_pr">59 kr / mnd</b></div>
+      <button class="f-cta"><span data-t="oa_cta">Start med én måned</span></button>
+    </div>
+    <div class="f-ob" data-show="ofr:b">
+      <h1 class="f-big2 cnd"><span data-t="ob_h">Ta deg <em>to uker</em> til å bestemme deg</span></h1>
+      <p class="f-p" data-t="ob_p">Bruk Frifor gratis i 14 dager i butikken. Deretter 499 kr i året, 41,58 kr i måneden.</p>
+      <div class="f-ox"><span data-t="ob_x">14 dager gratis, så årlig</span><b data-t="ob_pr">499 kr / år</b></div>
+      <button class="f-cta"><span data-t="ob_cta">Prøv gratis i 14 dager</span></button>
+    </div>
+    <div class="f-ob" data-show="ofr:c">
+      <h1 class="f-big2 cnd"><span data-t="oc_h">Under <em>10 kr</em> i uka</span></h1>
+      <p class="f-p" data-t="oc_p">Et helt år med Frifor koster 499 kr. Det er 9,60 kr i uka for å vite hva som er i maten.</p>
+      <div class="f-ox"><span data-t="oc_x">Årlig · 7 dager gratis</span><b data-t="oc_pr">9,60 kr / uke</b></div>
+      <button class="f-cta"><span data-t="oc_cta">Prøv gratis i 7 dager</span></button>
+    </div>
+    <button class="f-skip" data-go="paywall"><span data-t="o_no">Nei takk</span></button>
+  </div>
+</section>
+
+<section class="scr f-dk" data-id="today" data-aside>
+  <div class="s-pad"><span class="f-wm">frifor</span><button class="s-x" aria-label="Lukk">✕</button></div>
+  <div class="f-tdh"><h1 class="f-big cnd"><span data-t="td_h">Prøv <em>gratis</em> i 7 dager</span></h1></div>
+  <div class="f-sh" style="gap:12px;padding-top:22px">
+    <button class="f-tdp"><span>Full tilgang</span><b data-t="td_m">59,00 kr</b></button>
+    <button class="f-tdp on"><span>Full tilgang. Rimeligste valg!</span><b data-t="td_y">499,00 kr</b></button>
+    <p class="f-s" data-t="td_note">Med abonnement kan du skanne så mye du vil. Uten får du to gratis skanninger.</p>
+    <button class="f-cta"><span data-t="td_cta">Fortsett</span></button>
+    <div class="f-lg"><span data-t="lg_r">Gjenopprett kjøp</span></div>
+  </div>
+</section>
+<!-- SCREENS:END -->
+
+      </div></div>
+      <div class="au-pn" id="panel" aria-live="polite"></div>
+    </div>
+    <p class="au-hint">Close the paywall with ✕ to see idea 3, then switch between its three offers in the panel.</p>
+    <!-- shown when CONTENT.liveUrl is set: assets/qr-app.png = qr.swift "<liveUrl>?app" -->
+    <div class="au-qr" id="qrCard" hidden><img src="assets/qr-app.png" alt="QR code that opens the prototype full screen"><div><b>Try it on your phone</b><p>Scan to open the prototype full screen, the way a new user would see it.</p></div></div>
+    <div class="au-mobw" id="qrMob" hidden><a class="au-btn" href="?app">Open it full screen</a></div>
+  </div>
+</section>
+
+<!-- the paywall TODAY vs PROPOSED — built from CONTENT.compare (stills: assets/hero/<today>.png, <proposed>.png) -->
+<section class="au-sec" id="compare" hidden><div class="au-wrap" id="cmpBody"></div></section>
+
+<footer class="au-foot" id="sources">
+  <div class="au-wrap">
+    <details id="srcDetails">
+      <summary>Where the numbers come from</summary>
+      <div class="au-srcs" id="srcBody"></div>
+    </details>
+    <p class="au-fine" id="fine"></p>
+    <div class="au-cta-line">
+      <p>Every screen here can be built and A/B tested in Adapty’s Flow Builder, with no app release.</p>
+      <a class="au-btn" href="https://adapty.io/flow-paywall-builder/" target="_blank" rel="noopener">About Flow Builder</a>
+    </div>
+  </div>
+</footer>
+
+<!-- extras: video dialog (CONTENT.video), ?app bar, ?tour overlay (CONTENT.tour) -->
+<dialog class="au-vid" id="vid" aria-label="Walkthrough video">
+  <div class="au-vid-in"><video id="vidEl" controls muted playsinline preload="none"></video></div>
+  <div class="au-vid-bar"><a id="vidDl" download>Download the MP4</a><button type="button" class="au-vid-x" id="vidX">Close</button></div>
+</dialog>
+<div class="au-scrim" id="abScrim"></div>
+<div class="au-appbar" id="appbar">
+  <button type="button" class="au-ab-why" id="abWhy"><i></i><span id="abT"></span><em>Why ↑</em></button>
+  <div class="au-lsw" id="abLang" role="group" aria-label="Language"></div>
+</div>
+<div class="au-tour" aria-hidden="true">
+  <div class="au-tb"><img src="assets/brand/appstore-icon.jpg" alt="">Growth Audit <small>· Frifor</small></div>
+  <div class="au-tby">Prepared by Adapty</div>
+  <div class="au-tcap" id="tCap"></div>
+  <div class="au-ttap" id="tTap"></div>
+  <div class="au-tprog"><i id="tProg"></i></div>
+  <div class="au-tintro" id="tIntro"></div>
+  <div class="au-tend" id="tEnd"></div>
+</div>
+
+<!-- CONTENT — all the audit's words and numbers, as data. Schema (brand-check enforces it):
+     ideas  : 3–5 rows, ranked (the audit is five ideas, never fifteen). screen = the screen that shows it.
+     panel  : one entry per screen. idea = its number in ideas (1-based) or 0 for a context screen.
+              why on an idea screen reads "<b>Try</b> X, <b>because</b> Y." in ≤ 45 words; iv = its range.
+              why on a context screen is one line saying what it sets up.
+     hero   : three screen ids shown as stills in the hero — run hero-stills.sh after the screens are done.
+     outcome: combined "up to" numbers, PS-deck style, never above the ceiling of the per-idea ranges.
+     sources: public facts only — App Store, their site, their screens. No sales research on this page.
+     EXTRAS (each one hides itself when left empty):
+     langs  : [{"code":"en","name":"English"},{"code":"xx","name":"Second language · that storefront’s prices"}] — first = the markup's language
+     i18n   : {"es": {"<data-t key>": "text with {tokens}"}} — every data-t key, for every language after the first
+     prices : {"es": {"yr": "39,99 €", …}} — {tokens} in i18n strings; that storefront's real IAP prices
+     labelsI18n: {"es": {"goal": {"a": "…"}}} — C.labels per language (data-bind="label:…")
+     liveUrl: final Pages URL (QR card + video end card); the QR file encodes liveUrl + "?app"
+     video / poster: "assets/walkthrough.mp4" / "assets/walkthrough-poster.jpg" (record-video.sh)
+     compare: {today, proposed, kicker, title, sub, todayCap, rows:[{h, idea, was, now}], kept} — today = a data-aside screen
+     tour   : {segments:[{id, d, st, tap:[selector-in-screen, ms], pop, reveal, end}], captions:{id:{n|k, t, l, o, ol}},
+              introLede, endTitle} — ~30 s total; the last segment has end:true (the end card) -->
+<script type="application/json" id="content">
+{
+  "app": "Frifor",
+  "state": {"goal": "allergi", "prio": ["ultra"], "alg": ["gluten", "melk"], "prod": "kjeks", "plan": "year", "ofr": "a"},
+  "labels": {"goal": {"allergi": "Allergi og behov", "ren": "Unngå ultraprosessert mat", "maal": "Har et mål"}},
+  "chips": {"welcome": "Start", "goal": "Goal", "prio": "Priorities", "alg": "Allergens", "compass": "Compass", "try": "Search", "product": "First result", "proof": "Reviews", "paywall": "Paywall", "offer": "Offer on close"},
+  "hero": ["compass", "paywall", "product"],
+  "outcome": {"cr": "+20%", "arpu": "+15%"},
+  "ideas": [
+    {"screen": "compass", "title": "Use the answers you collect", "what": "People already pick priorities (ultra-processing, seed oils, Bovaer…) and the 14 allergens. Show those picks back as a compass, <code>Aldri: gluten, melk</code>, and let the paywall headline name them: “Se gluten og melk før det havner i kurven.”", "impact": "+10–20%", "il": "CR to purchase"},
+    {"screen": "product", "title": "Let the compass work once before the price", "what": "With two free scans, the payoff comes after the ask. Run the compass on one product inside onboarding, your own example Sjokoladekjeks med vaniljefyll, so a gluten-free shopper sees Hvete turn red and “Passer ikke” before they see 499 kr.", "impact": "+10–15%", "il": "CR to purchase"},
+    {"screen": "offer", "title": "Answer ✕ with a different offer, and test three", "what": "When someone closes the paywall, show one offer built on what you already sell: one month of Full tilgang at 59 kr, a 14-day trial on the year, or the year framed as 9,60 kr a week. Each runs as a paywall A/B test with no app release, the way Feeld doubled revenue in a year from 42 paywall tests with no price rise.", "impact": "+10–15%", "il": "ARPU"},
+    {"screen": "paywall", "title": "Make the annual saving impossible to miss", "what": "499 kr a year is 41,58 kr a month, 30% less than 59 kr monthly. Lead with the year at its monthly price, keep your own SKU name <code>Rimeligste valg</code> as the badge, and add a two-step trial line: today full access, day 7 499 kr.", "impact": "+10–15%", "il": "ARPU · annual share"},
+    {"screen": "proof", "title": "Proof where decisions happen", "what": "You have 4.4★ from 805 ratings in Norway and reviews like “prisen er god når man tenker over hva man får igjen for det”. Put three of them on one screen right before the paywall, and the rating beside the button.", "impact": "+5–15%", "il": "CR to purchase"}
+  ],
+  "panel": {
+    "welcome": {"idea": 0, "t": "Your App Store opener, kept", "why": "The scanner photo, “Vet du hva maten din inneholder?” and your 4.4★ rating, as on your listing. The NO · EN pill switches language."},
+    "goal":    {"idea": 0, "t": "One question first", "why": "Your site’s own audiences, Allergi og behov and Har et mål, plus ultra-processing, as the opening question. Sets up idea 1."},
+    "prio":    {"idea": 0, "t": "Your Prioriteringer, word for word", "why": "The list from your App Store screenshot. Every pick feeds the compass on the next screens."},
+    "alg":     {"idea": 0, "t": "The 14 allergens, word for word", "why": "Your allergen picker as it is. Gluten and milk are picked here, so the rest of the flow can name them."},
+    "compass": {"idea": 1, "t": "Use the answers you collect", "why": "<b>Try</b> showing the priorities and allergens people pick back as a compass, then naming them in the paywall headline, <b>because</b> effort that comes back as a visible result earns the ask, and “gluten og melk” sells the reason they downloaded.", "iv": "CR +10–20%", "il": "to purchase", "also": "The compass and goal also drive the paywall headline and its chips (screen 9)."},
+    "try":     {"idea": 0, "t": "Your product search", "why": "Your Produktsøk sheet with the two example products from your site, already tagged against the compass. Sets up idea 2."},
+    "product": {"idea": 2, "t": "Let the compass work once before the price", "why": "<b>Try</b> running the compass on one real product before the paywall, <b>because</b> with two free scans the value arrives after the ask, and one red Hvete with “Passer ikke” shows what 499 kr buys.", "iv": "CR +10–15%", "il": "to purchase", "also": "Pick Nøttemiks on the search screen, or other allergens, and the verdict changes."},
+    "proof":   {"idea": 5, "t": "Proof where decisions happen", "why": "<b>Try</b> one screen of your own reviews and the 4.4★ from 805 Norwegian ratings right before the price, <b>because</b> Frifor asks people to trust a verdict on their groceries, and other shoppers saying it works is what makes that verdict credible.", "iv": "CR +5–15%", "il": "to purchase"},
+    "paywall": {"idea": 4, "t": "Make the annual saving impossible to miss", "why": "<b>Try</b> leading with the year at 41,58 kr a month, 30% less than monthly, with a two-step trial line, <b>because</b> 499 kr next to 59 kr reads as the expensive option until the monthly price does the maths.", "iv": "+10–15%", "il": "ARPU · annual share", "also": "Also here: idea 1 (headline and chips name the compass) and idea 5 (the rating by the button). ✕ opens idea 3."},
+    "offer":   {"idea": 3, "t": "Answer ✕ with a different offer", "why": "<b>Try</b> answering ✕ with a second offer on what you already sell, <b>because</b> a no to 499 kr up front is rarely a no to Frifor, and one month at 59 kr or a longer trial keeps them.", "iv": "+10–15%", "il": "ARPU, from people who close the paywall", "also": "<span class=\"au-ofr\"><span>Three offers, each an A/B test with no app release:</span><button type=\"button\" data-ofr=\"a\">A · one month, 59 kr</button><button type=\"button\" data-ofr=\"b\">B · 14-day trial</button><button type=\"button\" data-ofr=\"c\">C · 9,60 kr a week</button></span>B needs a second yearly product at the same 499 kr with a 14-day introductory offer."}
+  },
+  "langs": [{"code": "nb", "name": "Norsk · norske priser"}, {"code": "en", "name": "English · US prices"}],
+  "i18n": {"en": {
+    "w_lang": "EN · NO", "w_h": "Do you know what’s <em>in</em> your food?", "w_sub": "Scan the barcode and the app sums up the product in one sentence.", "w_rate": "4.4 · 805 ratings on the App Store", "w_cta": "Get started",
+    "g_h": "What will you use Frifor for?", "g_sub": "We set up your compass from your answer.",
+    "g_a": "Allergies and needs", "g_as": "Keep track of the 14 allergens", "g_b": "Avoid ultra-processed food", "g_bs": "See what’s ultra-processed, and why", "g_c": "Working towards something", "g_cs": "Compare products and find alternatives",
+    "p_h": "Priorities", "p_sub": "Would you like us to highlight any of these?",
+    "p_1": "Ultra-processing", "p_2": "Store brands", "p_3": "Seed oils", "p_4": "Hyper-palatable food", "p_5": "Macronutrients", "p_6": "Bovaer", "p_7": "Smoke flavouring", "p_8": "Energy density",
+    "next": "Next",
+    "a_h": "Choose allergens", "a_sub": "Mark the allergens you want us to pay extra attention to.",
+    "a_1": "Gluten", "a_2": "Crustaceans", "a_3": "Eggs", "a_4": "Fish", "a_5": "Peanuts", "a_6": "Soy", "a_7": "Milk", "a_8": "Nuts", "a_9": "Celery", "a_10": "Mustard", "a_11": "Sesame seeds", "a_12": "Sulphur dioxide or sulphites", "a_13": "Lupin", "a_14": "Molluscs",
+    "a_cta": "Build my compass",
+    "c_h": "Your compass is ready", "c_r": "things Frifor watches for you", "c_rs": "Frifor reads the ingredient list through your eyes, and tells you before it goes in the basket.",
+    "c_goal": "You use Frifor for", "c_never": "Never — tell me straight away", "c_hl": "Highlight", "c_cta": "Try it on a product",
+    "t_h": "Product search", "t_sub": "Pick a product and Frifor holds it up against your compass.", "t_ph": "Search for products", "t_res": "Example products", "t_db": "More than 490,000 products from over 1,300 suppliers.",
+    "pr_alt": "Good alternatives", "pr_agr": "Allergens", "pr_cta": "Continue",
+    "r_sc": "4.4", "r_n": "805 ratings on the Norwegian App Store",
+    "r_3": "Finally a good tool for finding your way in the food jungle. Easy, clear app, and the price is good when you think about what you get for it. (translated)",
+    "r_2": "Fantastic help for those of us who want to stay healthy and eat clean food! Works like a dream 🙏🥰 (translated)",
+    "r_1": "Brilliant, and keeps getting better 👏 with more and more ways to tailor it. (translated)",
+    "r_cta": "Continue",
+    "pw_b1": "Scan as much as you like. Without a subscription you get two scans.", "pw_b2": "Allergens and additives shown separately, with what you avoid in red", "pw_b3": "More than 490,000 products, and good alternatives",
+    "pw_badge": "Best value · {save} less", "pw_y": "Yearly", "pw_ys": "7 days free, then {yr} a year", "pw_yp": "{yrmo}", "pw_ypm": "a month",
+    "pw_m": "Monthly", "pw_ms": "No commitment", "pw_mp": "{mo}", "pw_mpm": "a month",
+    "pw_t1": "Today", "pw_t1s": "Full access. Scan everything you buy.", "pw_t2": "Day 7", "pw_t2s": "{yr} for a year. Cancel before and you pay nothing.",
+    "pw_cta": "Try free for 7 days", "pw_ctam": "Continue – {mo} a month", "pw_trust": "No commitment. Cancel anytime.", "pw_q": "“The price is good when you think about what you get for it.” (translated)", "pw_qa": "Trinethenorwegian · 4.4 from 805 ratings on the App Store",
+    "lg_r": "Restore purchases", "lg_t": "Terms", "lg_p": "Privacy",
+    "oa_h": "Not ready for <em>a year?</em>", "oa_p": "Start with one month. Full access, scan as much as you like, cancel whenever you want.", "oa_x": "Full access · no commitment", "oa_pr": "{mo} / mo", "oa_cta": "Start with one month",
+    "ob_h": "Take <em>two weeks</em> to decide", "ob_p": "Use Frifor free for 14 days in the shop. Then {yr} a year, {yrmo} a month.", "ob_x": "14 days free, then yearly", "ob_pr": "{yr} / yr", "ob_cta": "Try free for 14 days",
+    "oc_h": "Under <em>{wkr}</em> a week", "oc_p": "A whole year of Frifor costs {yr}. That’s {wk} a week to know what’s in your food.", "oc_x": "Yearly · 7 days free", "oc_pr": "{wk} / week", "oc_cta": "Try free for 7 days",
+    "o_no": "No thanks",
+    "td_h": "Try it <em>free</em> for 7 days", "td_m": "{mo}", "td_y": "{yr}", "td_note": "With a subscription you can scan as much as you like. Without one you get two free scans.", "td_cta": "Continue"
+  }},
+  "prices": {"en": {"mo": "$4.99", "yr": "$39.99", "yrmo": "$3.33", "save": "33%", "wk": "$0.77", "wkr": "$1"}},
+  "labelsI18n": {"en": {"goal": {"allergi": "Allergies and needs", "ren": "Avoid ultra-processed food", "maal": "Working towards something"}}},
+  "liveUrl": "https://eddieatadapty.github.io/frifor-flow-rebuild/",
+  "video": "assets/walkthrough.mp4",
+  "poster": "assets/walkthrough-poster.jpg",
+  "compare": {
+    "today": "today", "proposed": "paywall",
+    "kicker": "The paywall, side by side",
+    "title": "Today and proposed.",
+    "sub": "Same two SKUs, same prices.",
+    "todayCap": "rebuilt from your listing and FAQ, not your live screen",
+    "rows": [
+      {"h": "Headline", "idea": 1, "was": "“Prøv gratis i 7 dager”, the same for everyone", "now": "Names the compass: “Se gluten og melk før det havner i kurven”, with the picks as chips"},
+      {"h": "Plans", "idea": 4, "was": "Full tilgang 59,00 kr and Full tilgang. Rimeligste valg! 499,00 kr, totals only", "now": "The year first at 41,58 kr a month, “Rimeligste valg · 30 % billigere” as the badge"},
+      {"h": "Trial", "idea": 4, "was": "7 days free, the length only", "now": "Two steps: today full access, day 7 499 kr, cancel before and pay nothing"},
+      {"h": "Proof", "idea": 5, "was": "None we could see", "now": "Your reviews on the screen before, and 4.4★ from 805 ratings by the button"},
+      {"h": "On close", "idea": 3, "was": "Not visible from outside", "now": "One of three offers, each an A/B test: 59 kr for a month · a 14-day trial · 9,60 kr a week"}
+    ],
+    "kept": "Kept: your two SKUs and prices, the 7-day trial, “Rimeligste valg”, Gjenopprett kjøp, and your colours, type and sheet layout."
+  },
+  "tour": {
+    "introLede": "Five ideas to turn more first scans into subscribers. <span>Each one built into Frifor’s own onboarding.</span>",
+    "endTitle": "Five ideas, built into Frifor’s own onboarding.",
+    "segments": [
+      {"id": "welcome", "d": 3200, "tap": [".f-cta", 2700]},
+      {"id": "goal", "d": 2000, "st": {"goal": "allergi"}, "tap": ["[data-pick=\"goal:allergi\"]", 1300]},
+      {"id": "prio", "d": 2200, "st": {"prio": ["ultra", "hyper"]}, "tap": ["[data-toggle=\"prio:hyper\"]", 350]},
+      {"id": "alg", "d": 2400, "st": {"alg": ["gluten", "melk"]}, "tap": [".f-cta", 1900]},
+      {"id": "compass", "d": 3200, "pop": ".f-cmp", "tap": [".f-cta", 2800]},
+      {"id": "try", "d": 1800, "tap": ["[data-pick=\"prod:kjeks\"]", 1300]},
+      {"id": "product", "d": 3200, "st": {"prod": "kjeks"}, "pop": ".f-vd", "reveal": ".f-mk", "tap": [".f-cta", 2800]},
+      {"id": "proof", "d": 2400, "tap": [".f-cta", 2000]},
+      {"id": "paywall", "d": 3200, "st": {"plan": "year"}, "reveal": ".f-tl", "tap": [".s-x", 2800]},
+      {"id": "offer", "d": 2000, "st": {"ofr": "a"}},
+      {"id": "offer", "d": 1700, "st": {"ofr": "b"}},
+      {"id": "offer", "d": 1700, "st": {"ofr": "c"}},
+      {"id": "offer", "d": 3000, "end": true}
+    ],
+    "captions": {
+      "welcome": {"k": "Context", "t": "Your App Store opener, kept", "l": "The scanner photo, your headline and 4.4★ from 805 ratings."},
+      "goal": {"k": "Context", "t": "One question first", "l": "Your site’s own audiences, as the opening question."},
+      "prio": {"k": "Context", "t": "Your Prioriteringer, word for word", "l": "Every pick feeds the compass."},
+      "alg": {"k": "Context", "t": "The 14 allergens", "l": "Gluten and milk picked. Both go on the compass."},
+      "compass": {"n": 1, "t": "Use the answers you collect", "l": "Show the picks back as a compass, then name them on the paywall.", "o": "CR +10–20%", "ol": "to purchase"},
+      "try": {"k": "Context", "t": "Your product search", "l": "Two of your own example products."},
+      "product": {"n": 2, "t": "Let the compass work once before the price", "l": "Hvete turns red and says “Passer ikke” before 499 kr.", "o": "CR +10–15%", "ol": "to purchase"},
+      "proof": {"n": 5, "t": "Proof where decisions happen", "l": "Your own reviews and 4.4★, right before the price.", "o": "CR +5–15%", "ol": "to purchase"},
+      "paywall": {"n": 4, "t": "Make the annual saving impossible to miss", "l": "499 kr a year is 41,58 kr a month, 30% less.", "o": "ARPU +10–15%", "ol": "annual share"},
+      "offer": {"n": 3, "t": "Answer ✕ with a different offer", "l": "One month at 59 kr · a 14-day trial · 9,60 kr a week.", "o": "ARPU +10–15%", "ol": "three offers, each an A/B test"}
+    }
+  },
+  "grounding": "Impact ranges are Adapty’s expected effect from teardowns and A/B tests across 30,000+ subscription apps, not measured lift for Frifor. They overlap, so they don’t add up.",
+  "sources": [
+    {"group": "Prices", "items": [
+      {"dt": "59 kr a month · 499 kr a year", "dd": "App Store, Norwegian storefront, In-App Purchases: “Full tilgang” 59,00 kr and “Full tilgang. Rimeligste valg!” 499,00 kr (<a href=\"https://apps.apple.com/no/app/frifor-forst%C3%A5-hva-du-spiser/id1632406566\" target=\"_blank\" rel=\"noopener\">listing</a>). Your FAQ on <a href=\"https://frifor.app/nb/appen\" target=\"_blank\" rel=\"noopener\">frifor.app/nb/appen</a> gives the same prices."},
+      {"dt": "$4.99 · $39.99 in the English version", "dd": "App Store, US storefront, the same two SKUs. The UK storefront lists £4.99 and £39.99."},
+      {"dt": "41,58 kr a month · 30% · 9,60 kr a week", "dd": "Our maths: 499 ÷ 12; 499 against 12 × 59 = 708; 499 ÷ 52. In English: $3.33, 33%, $0.77."},
+      {"dt": "Not used: 39 kr a month", "dd": "Your App Store description says “For kun 39,- kr i måneden”, but the In-App Purchases list and your FAQ say 59 kr, so we used 59 kr. Your English FAQ’s “around €5 / €43” is a rounded figure, not a storefront price."}
+    ]},
+    {"group": "Proof", "items": [
+      {"dt": "4.4★ from 805 ratings", "dd": "Norwegian App Store, 29 October 2026. Other storefronts have too few ratings to show, so the English version keeps Norway’s rating and says so."},
+      {"dt": "Three reviews", "dd": "Word for word from the reviews card in your App Store screenshots. The English translations are ours."},
+      {"dt": "490,000 products from 1,300 suppliers", "dd": "FAQ on frifor.app/nb/appen. Your App Store description still says 100 000; we used the newer number."},
+      {"dt": "Feeld: revenue doubled in a year from 42 paywall tests", "dd": "Adapty case study, <a href=\"https://adapty.io/case-studies/feeld/\" target=\"_blank\" rel=\"noopener\">adapty.io/case-studies/feeld</a>: no engineering work and no price rise."}
+    ]},
+    {"group": "Features and copy", "items": [
+      {"dt": "Prioriteringer, the allergen picker, product search, reviews card, “Prøv gratis i 7 dager”", "dd": "Your App Store screenshots (Norwegian storefront), word for word."},
+      {"dt": "The product sentence, the compass, “Passer / Passer ikke”, good alternatives", "dd": "frifor.app/nb/appen. Sjokoladekjeks med vaniljefyll and Nøttemiks are the example products on that page, with its ingredients, allergens and nutrition."},
+      {"dt": "Two free scans · the trial is free · no binding · Gjenopprett kjøp", "dd": "FAQ on frifor.app/nb/appen."},
+      {"dt": "The first question", "dd": "“Allergi og behov” and “Har et mål” are the audience tabs on frifor.app/nb/appen; “Unngå ultraprosessert mat” is ours, from your home page."},
+      {"dt": "English", "dd": "Our translation, using the wording of your English site (frifor.app/en/appen) where it exists."}
+    ]},
+    {"group": "Design", "items": [
+      {"dt": "Colours", "dd": "frifor.app CSS tokens: forest #033511, leaf #8ccb26, limestone #fcfaee, sand #ebe4bc, clay #e96756, coral #f8cdbf, rose #fa9ead, checked against your App Store screenshots."},
+      {"dt": "Type", "dd": "MD System, MD System Condensed and MD IO are licensed, so the prototype uses the closest Google families: Inter Tight, Barlow Condensed and IBM Plex Mono."},
+      {"dt": "Imagery", "dd": "The scan photo is cropped from your first App Store screenshot (Norway); the product images are from frifor.app."}
+    ]},
+    {"group": "What we couldn’t see", "items": [
+      {"dt": "Your live onboarding and paywall", "dd": "Frifor isn’t in the recorded-app library we use and we haven’t walked the app, so the order of screens, today’s paywall layout, its button wording (“Fortsett” is ours) and what happens after ✕ are reconstructed from your listing and site."},
+      {"dt": "Which plan carries the 7-day trial", "dd": "We put it on the yearly plan."},
+      {"dt": "Offer B, the 14-day trial", "dd": "Needs a second yearly product at the same 499 kr with a 14-day introductory offer, because the App Store allows one introductory offer per product."},
+      {"dt": "A discount on the year", "dd": "Needs a promotional price you set. We don’t show a price that isn’t on your listing."},
+      {"dt": "Your test history", "dd": "If you’ve already run one of these, tell us and we’ll go deeper on the rest."}
+    ]}
+  ]
+}
+</script>
+
+<script>
+/* Frifor hooks: the compass, the product verdict and the paywall headline are built from the real picks
+   (S.goal, S.prio, S.alg, S.prod) in the current language (S.lang). Product facts are the example products
+   on frifor.app/nb/appen. Image paths used: assets/site/grogro-rawbar.png assets/site/helios-dadler.png
+   assets/site/gronn-frisk-dadler.png assets/site/friggs-maiskaker.png assets/crop/scan-photo.jpg */
+(function(){
+  var PRIO = {ultra:['Ultraprosessering','Ultra-processing'], egne:['Egne merkevarer','Store brands'], fro:['Frøoljer','Seed oils'],
+    hyper:['Hypervelsmakende mat','Hyper-palatable food'], makro:['Makronæringsstoffer','Macronutrients'], bovaer:['Bovaer','Bovaer'],
+    royk:['Røykaroma','Smoke flavouring'], energi:['Energitetthet','Energy density']};
+  var ALG = {gluten:['Gluten','Gluten'], skalldyr:['Skalldyr','Crustaceans'], egg:['Egg','Eggs'], fisk:['Fisk','Fish'], peanott:['Peanøtter','Peanuts'],
+    soya:['Soya','Soy'], melk:['Melk','Milk'], notter:['Nøtter','Nuts'], selleri:['Selleri','Celery'], sennep:['Sennep','Mustard'],
+    sesam:['Sesamfrø','Sesame seeds'], sulfitt:['Svoveldioksid eller sulfitter','Sulphur dioxide or sulphites'], lupin:['Lupiner','Lupin'], blotdyr:['Bløtdyr','Molluscs']};
+  var T = {
+    verdNo:['Passer ikke kompasset ditt','Doesn’t fit your compass'], verdOk:['Passer kompasset ditt','Fits your compass'],
+    hits:['Det som gjelder deg','What applies to you'], none:['Ingen treff mot kompasset ditt.','Nothing on your compass.'],
+    noneSel:['Ingen valgt','None picked'], fits:['Passer','Fits'],
+    and:[' og ',' and '], more:[' og mer',' and more'],
+    hAlg:['Se <em>{x}</em> før det havner i kurven','See <em>{x}</em> before it goes in the basket'],
+    hAlg0:['Se <em>allergenene dine</em> før det havner i kurven','See <em>your allergens</em> before they go in the basket'],
+    hRen:['Se hva som er <em>ultraprosessert</em> før det havner i kurven','See what’s <em>ultra-processed</em> before it goes in the basket'],
+    hMaal:['Sammenlign varer og finn <em>bedre alternativer</em>','Compare products and find <em>better alternatives</em>']
+  };
+  /* product facts — frifor.app/nb/appen */
+  var P = {
+    kjeks: {brand:'Eksempelbakeriet', name:'Sjokoladekjeks med vaniljefyll', keys:['gluten','melk','soya','ultra','hyper','makro','energi'], alts:true,
+      sum:[function(h){ return '<b>Sjokoladekjeks med vaniljefyll</b> inneholder ' + h('gluten','Hvete') + ', <b>Havre</b>, ' + h('makro','lite protein') + ' og har ' + h('makro','38g Sukker') + ', <b>NUTRI E</b> og er ' + h('ultra','UP') + ' og ' + h('hyper','HP') + '.'; },
+           function(h){ return '<b>Sjokoladekjeks med vaniljefyll</b> contains ' + h('gluten','Wheat') + ', <b>Oats</b>, ' + h('makro','low protein') + ' and has ' + h('makro','38g Sugar') + ', <b>NUTRI E</b> and is ' + h('ultra','UP') + ' and ' + h('hyper','HP') + '.'; }],
+      rem:{gluten:['Inneholder hvete (gluten)','Contains wheat (gluten)'], melk:['Inneholder melk: skummetmelkpulver','Contains milk: skimmed milk powder'], soya:['Inneholder soya','Contains soy'],
+        ultra:['Ultraprosessert: inneholder emulgatorer, aroma og glukosesirup','Ultra-processed: contains emulsifiers, flavouring and glucose syrup'],
+        hyper:['Hypervelsmakende: 37 % fett og 32 % sukker','Hyper-palatable: 37% fat and 32% sugar'], makro:['38 g sukker og 5,5 g protein per 100 g','38 g sugar and 5.5 g protein per 100 g'],
+        energi:['Energitetthet: 482 kcal per 100 g','Energy density: 482 kcal per 100 g']},
+      agr:[['gluten','Hvete','Wheat'],['melk','Melk','Milk'],['soya','Soya','Soy']], trace:['Kan inneholde spor av havre','May contain traces of oats'],
+      nut:[['482','kcal','kcal'],['38 g','sukker','sugar'],['5,5 g','protein','protein']]},
+    notter: {brand:'Nøtte', name:'Nøttemiks', keys:['peanott','notter','sulfitt','fro','makro'], alts:false,
+      sum:[function(h){ return '<b>Nøttemiks</b> er vegansk, men inneholder også ' + h('peanott','Peanøtter') + ', ' + h('makro','lite protein') + ' og har ' + h('makro','29g Sukker') + '.'; },
+           function(h){ return '<b>Nøttemiks</b> is vegan, but also contains ' + h('peanott','Peanuts') + ', ' + h('makro','low protein') + ' and has ' + h('makro','29g Sugar') + '.'; }],
+      rem:{peanott:['Inneholder peanøtter (48 %)','Contains peanuts (48%)'], notter:['Inneholder nøtter: mandler (10 %)','Contains nuts: almonds (10%)'],
+        sulfitt:['Inneholder sulfitt: natriumdisulfitt (E223)','Contains sulphite: sodium disulphite (E223)'], fro:['Frøoljer: solsikkeolje og rapsolje','Seed oils: sunflower and rapeseed oil'],
+        makro:['29 g sukker, lite protein','29 g sugar, low protein']},
+      agr:[['peanott','Peanøtter','Peanuts'],['notter','Mandler','Almonds'],['sulfitt','Sulfitt (E223)','Sulphite (E223)']], trace:null,
+      nut:[['29 g','sukker','sugar'],['48 %','peanøtter','peanuts'],['5','ingredienser','ingredients']]}
+  };
+  function li(){ return S.lang === 'en' ? 1 : 0; }
+  function picked(){ return (S.alg || []).concat(S.prio || []); }
+  function nm(k){ var L = li(); return ALG[k] ? ALG[k][L] : PRIO[k] ? PRIO[k][L] : k; }
+  function tag(k, cls){ return '<span class="f-tg' + (cls ? ' ' + cls : '') + '">' + nm(k) + '</span>'; }
+  function hitsFor(p){ var on = picked(); return P[p].keys.filter(function(k){ return on.indexOf(k) > -1; }); }
+  function q(sel){ return document.querySelectorAll(sel); }
+  function joinNames(a){
+    var L = li(), n = a.map(function(k){ return nm(k).toLowerCase(); });
+    if (n.length <= 2) return n.join(T.and[L]);
+    return n.slice(0, 2).join(', ') + T.more[L];
+  }
+  window.onSync = function(S){
+    var L = li(), alg = S.alg || [], prio = S.prio || [], n = alg.length + prio.length;
+    /* compass */
+    q('.f-cN').forEach(function(e){ e.textContent = n; });
+    q('.f-arc').forEach(function(e){ e.setAttribute('stroke-dashoffset', 226 - 226 * Math.min(n, 8) / 8); });
+    q('.f-cA').forEach(function(e){ e.innerHTML = alg.length ? alg.map(function(k){ return tag(k, 'f-no'); }).join('') : tag(T.noneSel[L]); });
+    q('.f-cP').forEach(function(e){ e.innerHTML = prio.length ? prio.map(function(k){ return tag(k); }).join('') : tag(T.noneSel[L]); });
+    /* search rows */
+    q('.f-rtag').forEach(function(e){ var h = hitsFor(e.dataset.p); e.innerHTML = h.length ? h.slice(0, 3).map(function(k){ return tag(k, 'f-no'); }).join('') : '<span class="f-tg f-yes">' + T.fits[L] + '</span>'; });
+    /* product sheet */
+    var p = P[S.prod] || P.kjeks, hit = hitsFor(S.prod in P ? S.prod : 'kjeks');
+    q('.f-pbrand').forEach(function(e){ e.textContent = p.brand; });
+    q('.f-pname').forEach(function(e){ e.textContent = p.name; });
+    q('.f-vd').forEach(function(e){ e.textContent = hit.length ? T.verdNo[L] : T.verdOk[L]; e.classList.toggle('f-ok', !hit.length); });
+    q('.f-sum').forEach(function(e){ e.innerHTML = p.sum[L](function(k, w){ return hit.indexOf(k) > -1 ? '<span class="f-hit">' + w + '</span>' : '<b>' + w + '</b>'; }); });
+    q('.f-mk').forEach(function(e){
+      e.innerHTML = hit.length ? '<b>' + T.hits[L] + ' (' + hit.length + ')</b><ol>' + hit.slice(0, 4).map(function(k){ return '<li>' + p.rem[k][L] + '</li>'; }).join('') + '</ol>' : '<b>' + T.none[L] + '</b>';
+    });
+    q('.f-nut').forEach(function(e){ e.innerHTML = p.nut.map(function(r){ return '<div><b>' + (L ? r[0].replace(',', '.') : r[0]) + '</b><span>' + r[1 + L] + '</span></div>'; }).join(''); });
+    q('.f-agl').forEach(function(e){ var on = picked(); e.innerHTML = p.agr.map(function(a){ return '<span class="f-tg' + (on.indexOf(a[0]) > -1 ? ' f-no' : '') + '">' + a[1 + L] + '</span>'; }).join('') + (p.trace ? ' <small>' + p.trace[L] + '</small>' : ''); });
+    q('.f-alts').forEach(function(e){ e.style.display = p.alts ? '' : 'none'; });
+    /* paywall headline + chips */
+    var h = S.goal === 'ren' ? T.hRen[L] : S.goal === 'maal' ? T.hMaal[L] : alg.length ? T.hAlg[L].replace('{x}', joinNames(alg)) : T.hAlg0[L];
+    q('.f-pwt').forEach(function(e){ e.innerHTML = h; });
+    q('.f-pwc').forEach(function(e){ e.innerHTML = alg.slice(0, 3).map(function(k){ return tag(k, 'f-no'); }).join('') + prio.slice(0, 2).map(function(k){ return tag(k); }).join(''); });
+    markOfr();
+  };
+  function markOfr(){ q('[data-ofr]').forEach(function(b){ b.classList.toggle('on', b.dataset.ofr === S.ofr); }); }
+  window.onEnter = function(id){ markOfr(); };
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-ofr]'); if (!b) return;
+    S.ofr = b.dataset.ofr; if (cur !== 'offer') jump('offer'); else sync();
+  });
+  var sb = document.querySelector('.sbar'); if (sb) sb.style.color = 'rgba(255,255,255,.94)';
+})();
+</script>
+<script>
+/* ============ engine — generic, do not fork per app ============ */
+var C = JSON.parse(document.getElementById('content').textContent);
+var S = C.state, scr = {}, ORDER = [], hist = [], cur = null, Q = location.search;
+var SHOT = /[?&](shot|phone|tour)\b/.test(Q), HERO = /[?&]hero\b/.test(Q);
+/* a screen with data-aside (e.g. the paywall TODAY for the side-by-side) renders for stills but is not part of the flow */
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id] = s; if (!s.hasAttribute('data-aside')) ORDER.push(s.dataset.id); });
+if (/[?&]shot\b/.test(Q)) document.documentElement.classList.add('shot');
+if (/[?&]phone\b/.test(Q)) document.documentElement.classList.add('shot', 'phoneonly');
+if (/[?&]clear\b/.test(Q)) document.documentElement.classList.add('clear');
+var IDEAS = (C.ideas || []).length;
+
+/* ---- languages: markup is the first language; C.i18n[lang][data-t key] the others; {tokens} from C.prices[lang] ---- */
+var LANGS = C.langs || [], BASE = LANGS.length ? LANGS[0].code : 'en', LANG_DONE = BASE, BASE_LABELS = JSON.parse(JSON.stringify(C.labels || {}));
+if (!S.lang) S.lang = BASE;
+function fillP(s, l){ var P = (C.prices || {})[l] || {}; return String(s).replace(/\{(\w+)\}/g, function(m, k){ return k in P ? P[k] : m; }); }
+function applyLang(){
+  var l = S.lang || BASE; if (l === LANG_DONE) return;
+  var T = (C.i18n || {})[l] || {};
+  document.querySelectorAll('.phone [data-t]').forEach(function(el){
+    if (el._base == null) el._base = el.innerHTML;
+    el.innerHTML = l === BASE || T[el.dataset.t] == null ? el._base : fillP(T[el.dataset.t], l);
+  });
+  C.labels = JSON.parse(JSON.stringify(BASE_LABELS));
+  var LL = (C.labelsI18n || {})[l] || {}; Object.keys(LL).forEach(function(k){ C.labels[k] = LL[k]; });
+  LANG_DONE = l;
+}
+function setLang(l){
+  if (!LANGS.some(function(x){ return x.code === l; })) return;
+  S.lang = l; sync();
+  document.querySelectorAll('[data-setlang]').forEach(function(b){ b.classList.toggle('on', b.dataset.setlang === l); });
+  if (window.onLang) window.onLang(l);
+}
+
+function lab(key){ var v = S[key]; var L = C.labels[key]; if (Array.isArray(v)) return v.map(function(x){ return L && L[x] || x; }).join(', '); return (L && L[v]) || v; }
+function sync(){
+  applyLang();
+  document.querySelectorAll('[data-bind]').forEach(function(el){
+    var b = el.dataset.bind, m = b.split(':');
+    el.textContent = m[0] === 'label' ? lab(m[1]) : m[0] === 'count' ? (S[m[1]] || []).length : (S[b] == null ? '' : S[b]);
+  });
+  document.querySelectorAll('[data-pick]').forEach(function(el){ var p = el.dataset.pick.split(':'); el.classList.toggle('on', S[p[0]] === p[1]); });
+  document.querySelectorAll('[data-toggle]').forEach(function(el){ var p = el.dataset.toggle.split(':'); el.classList.toggle('on', (S[p[0]] || []).indexOf(p[1]) > -1); });
+  document.querySelectorAll('[data-requires]').forEach(function(el){ el.disabled = !(S[el.dataset.requires] || []).length; });
+  document.querySelectorAll('[data-show]').forEach(function(el){ var p = el.dataset.show.split(':'); el.style.display = String(S[p[0]]) === p[1] ? '' : 'none'; });
+  if (window.onSync) window.onSync(S);
+}
+function show(id, dir){
+  var from = scr[cur], to = scr[id]; if (!to || id === cur) return;
+  var sheet = to.classList.contains('sheet');
+  if (from){
+    from.classList.remove('is-active');
+    if (sheet) from.classList.add('under');                                   /* a sheet slides up over the screen that opened it */
+    else if (dir === 'fwd' && !from.classList.contains('sheet')) from.classList.add('is-past');
+  }
+  if (!sheet) Object.keys(scr).forEach(function(k){ var u = scr[k]; if (u !== to && u.classList.contains('under')) { u.classList.remove('under'); if (dir === 'fwd') u.classList.add('is-past'); } });
+  to.classList.remove('is-past', 'under'); to.classList.add('is-active'); cur = id;
+  paint(); if (window.onEnter) window.onEnter(id, S);
+}
+function go(id){ if (cur) hist.push(cur); show(id, 'fwd'); }
+function back(){ if (hist.length) { var p = hist.pop(); scr[cur].classList.remove('is-active'); show(p, 'back'); } }
+function jump(id){
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active', 'is-past', 'under'); });
+  var i = ORDER.indexOf(id); hist = ORDER.slice(0, i < 0 ? 0 : i); cur = null;
+  ORDER.slice(0, i).forEach(function(k){ if (!scr[k].classList.contains('sheet')) scr[k].classList.add('is-past'); });
+  if (scr[id] && scr[id].classList.contains('sheet')) {                        /* jumping to a sheet: its opener stays visible under it */
+    for (var j = i - 1; j >= 0; j--) if (!scr[ORDER[j]].classList.contains('sheet')) { scr[ORDER[j]].classList.remove('is-past'); scr[ORDER[j]].classList.add('under'); break; }
+  }
+  show(id, 'jump');
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+}
+function stepBy(d){ var i = ORDER.indexOf(cur) + d; if (i >= 0 && i < ORDER.length) jump(ORDER[i]); }
+function jumpTo(id){
+  var p = document.getElementById('prototype');
+  if (p && !document.documentElement.classList.contains('appmode')) p.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+  jump(id);
+}
+function paint(){
+  sync();
+  var c = document.getElementById('chips');
+  if (!c.childElementCount) ORDER.forEach(function(id){
+    var p = C.panel[id] || {}, b = document.createElement('button');
+    b.className = 'au-chip'; b.type = 'button'; b.dataset.id = id; b.setAttribute('role', 'tab');
+    b.innerHTML = (p.idea ? '<i>' + p.idea + '</i>' : '') + ((C.chips && C.chips[id]) || id);
+    b.onclick = function(){ jump(id); };
+    c.appendChild(b);
+  });
+  c.querySelectorAll('.au-chip').forEach(function(b){ var on = b.dataset.id === cur; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  var d = C.panel[cur] || {t: cur, why: ''}, n = ORDER.indexOf(cur) + 1;
+  document.getElementById('panel').innerHTML =
+    (d.idea ? '<div class="au-pn-k"><i></i>Idea ' + d.idea + ' of ' + IDEAS + '</div>' : '<div class="au-pn-k au-ctx"><i></i>Context</div>') +
+    '<h3 class="au-pn-t">' + d.t + '</h3><p class="au-pn-h">' + d.why + '</p>' +
+    (d.iv ? '<div class="au-pn-o"><div class="au-lab">Potential outcome · based on Adapty data</div><div class="au-val"><mark>' + d.iv + '</mark></div><div class="au-sub">' + (d.il || '') + '</div></div>' : '') +
+    (d.also ? '<p class="au-pn-a">' + d.also + '</p>' : '') +
+    '<div class="au-pn-nav"><button type="button" onclick="stepBy(-1)"' + (n <= 1 ? ' disabled' : '') + '>‹ Previous</button><span>Screen ' + n + ' of ' + ORDER.length + '</span><button type="button" onclick="stepBy(1)"' + (n === ORDER.length ? ' disabled' : '') + '>Next ›</button></div>';
+  var ab = document.getElementById('abT'); if (ab) ab.textContent = (d.idea ? 'Idea ' + d.idea + ' of ' + IDEAS + ' · ' : '') + (d.t || '');
+}
+document.addEventListener('click', function(e){
+  var j = e.target.closest('[data-jumpto]'); if (j){ e.preventDefault(); jumpTo(j.dataset.jumpto); return; }
+  var L = e.target.closest('[data-setlang]'); if (L){ setLang(L.dataset.setlang); return; }
+  if (e.target.closest('[data-langtoggle]') && LANGS.length > 1){ var k = LANGS.findIndex(function(x){ return x.code === S.lang; }); setLang(LANGS[(k + 1) % LANGS.length].code); return; }
+  var el = e.target.closest('[data-go],[data-back],[data-pick],[data-toggle]'); if (!el) return;
+  if (el.dataset.pick){ var p = el.dataset.pick.split(':'); S[p[0]] = p[1]; sync(); if (el.dataset.advance) setTimeout(function(){ go(el.dataset.advance); }, 170); return; }
+  if (el.dataset.toggle){ var q = el.dataset.toggle.split(':'), a = S[q[0]] = S[q[0]] || [], i = a.indexOf(q[1]); if (i > -1) a.splice(i, 1); else a.push(q[1]); sync(); return; }
+  if ('back' in el.dataset) return back();
+  go(el.dataset.go);
+});
+document.querySelectorAll('[data-input]').forEach(function(inp){
+  inp.value = S[inp.dataset.input] || ''; inp.addEventListener('input', function(){ S[inp.dataset.input] = inp.value.trim() || 'there'; sync(); });
+});
+function $(id){ return document.getElementById(id); }
+
+/* hero stills, shortlist, outcome, sources — from CONTENT */
+$('heroPhones').innerHTML = (C.hero || []).map(function(id, i){
+  var pos = ['l', 'c', 'r'][i] || 'r', t = (C.chips && C.chips[id]) || id;
+  return '<button class="au-hp au-' + pos + '" data-jumpto="' + id + '" aria-label="Open ' + t + '"><img src="assets/hero/' + id + '.png" alt=""></button>';
+}).join('');
+$('ideaList').innerHTML = (C.ideas || []).map(function(r, i){
+  return '<article class="au-idea"><div class="au-num">0' + (i + 1) + '</div><div><h3>' + r.title + '</h3><p>' + r.what + '</p>' +
+    '<button type="button" class="au-lnk" data-jumpto="' + r.screen + '">See it on the screen</button></div>' +
+    '<div class="au-imp"><div class="au-v"><mark>' + r.impact + '</mark></div><div class="au-l">' + r.il + '</div></div></article>';
+}).join('');
+var O = C.outcome || {};
+$('bandNums').innerHTML =
+  (O.cr ? '<div><small>up to</small><b>' + O.cr + '</b><span>CR to purchase</span></div>' : '') +
+  (O.arpu ? '<div><small>up to</small><b>' + O.arpu + '</b><span>ARPU</span></div>' : '');
+$('bandFn').textContent = C.grounding;
+$('fine').textContent = C.grounding + ' Prepared by Adapty.';
+$('srcBody').innerHTML = C.sources.map(function(g){
+  return '<div><h4>' + g.group + '</h4><dl>' + g.items.map(function(it){ return '<dt>' + it.dt + '</dt><dd>' + it.dd + '</dd>'; }).join('') + '</dl></div>';
+}).join('');
+function openSrc(){ var d = $('srcDetails'); d.open = true; d.scrollIntoView({block: 'start'}); }
+
+/* ---- extras: language control, the paywall side by side, QR / phone view, the video ---- */
+if (LANGS.length > 1) {
+  $('langRow').hidden = false;
+  var lb = LANGS.map(function(x){ return '<button type="button" data-setlang="' + x.code + '">' + x.name + '</button>'; }).join('');
+  $('langSw').innerHTML = lb;
+  $('abLang').innerHTML = LANGS.map(function(x){ return '<button type="button" data-setlang="' + x.code + '">' + x.code.toUpperCase() + '</button>'; }).join('');
+}
+var CM = C.compare;
+if (CM && scr[CM.today] && scr[CM.proposed]) {
+  $('compare').hidden = false; $('navCompare').hidden = false;
+  $('cmpBody').innerHTML = '<div class="au-ideas-h"><p class="au-kicker">' + (CM.kicker || 'The paywall, side by side') + '</p><h2 class="au-h2">' + (CM.title || 'Today and proposed.') + (CM.sub ? ' <span>' + CM.sub + '</span>' : '') + '</h2></div>' +
+    '<div class="au-cmp"><figure><img src="assets/hero/' + CM.today + '.png" alt="Your paywall today"><figcaption>Today <span>· ' + (CM.todayCap || 'rebuilt from your recording') + '</span></figcaption></figure>' +
+    '<ol class="au-chg">' + (CM.rows || []).map(function(r){
+      return '<li><h4>' + r.h + (r.idea ? ' <i>Idea ' + r.idea + '</i>' : '') + '</h4><span class="au-was"><em>Today</em>' + r.was + '</span><span class="au-now"><em>Proposed</em>' + r.now + '</span></li>';
+    }).join('') + '</ol>' +
+    '<figure><button type="button" class="au-cmp-go" data-jumpto="' + CM.proposed + '" aria-label="Open the proposed paywall"><img src="assets/hero/' + CM.proposed + '.png" alt="The proposed paywall"></button><figcaption>Proposed <span>· tap to try it</span></figcaption></figure></div>' +
+    (CM.kept ? '<p class="au-kept">' + CM.kept + '</p>' : '');
+}
+if (C.liveUrl) { $('qrCard').hidden = false; $('qrMob').hidden = false; }
+if (/[?&]app\b/.test(Q)) {
+  var H0 = document.documentElement; H0.classList.add('appmode');
+  var openP = function(o){ H0.classList.toggle('au-open', o); $('abWhy').querySelector('em').textContent = o ? 'Close ↓' : 'Why ↑'; };
+  $('abWhy').onclick = function(){ openP(!H0.classList.contains('au-open')); };
+  $('abScrim').onclick = function(){ openP(false); };
+}
+if (C.video) {
+  var dlg = $('vid'), vel = $('vidEl'); vel.src = C.video; if (C.poster) vel.poster = C.poster; $('vidDl').href = C.video;
+  $('heroVideo').hidden = false;
+  $('heroVideo').onclick = function(){ dlg.showModal(); vel.play().catch(function(){}); };
+  $('vidX').onclick = function(){ dlg.close(); };
+  dlg.addEventListener('close', function(){ vel.pause(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+}
+
+/* ---- ?tour: a deterministic walkthrough from C.tour — tourAt(ms) paints one frame; record-video.sh records it ---- */
+function tourInit(){
+  var T = C.tour, H = document.documentElement, TR = T.transition || 360;
+  H.classList.add('tourmode', 'shot'); document.body.classList.add('nofx');
+  var SEG = T.segments, START = [], STATE = [], UNDER = [], acc = 0, st = JSON.parse(JSON.stringify(C.state));
+  SEG.forEach(function(s, i){
+    START.push(acc); acc += s.d;
+    Object.keys(s.st || {}).forEach(function(k){ st[k] = s.st[k]; }); STATE.push(JSON.parse(JSON.stringify(st)));
+    var u = null; if (scr[s.id].classList.contains('sheet')) for (var j = i - 1; j >= 0; j--) if (!scr[SEG[j].id].classList.contains('sheet')) { u = SEG[j].id; break; }
+    UNDER.push(u);
+  });
+  var TOTAL = acc, capEl = $('tCap'), tap = $('tTap'), pressed = null, popped = [];
+  $('tIntro').innerHTML = '<p class="au-eyebrow"><i></i>' + document.querySelector('.au-top-hero .au-eyebrow').textContent + '</p><h1 class="au-display">' + C.app + '</h1>' +
+    '<p class="au-lede">' + (T.introLede || document.querySelector('.au-top-hero .au-lede').innerHTML) + '</p>';
+  $('tEnd').innerHTML = '<p class="au-eyebrow"><i></i>Growth Audit · ' + C.app + '</p><h2 class="au-te-h">' + (T.endTitle || 'Five ideas, built into your own onboarding.') + '</h2>' +
+    '<div class="au-te-n">' + (O.cr ? '<div><small>up to</small><b>' + O.cr + '</b><span>CR to purchase</span></div>' : '') + (O.arpu ? '<div><small>up to</small><b>' + O.arpu + '</b><span>ARPU</span></div>' : '') + '</div>' +
+    (C.liveUrl ? '<div class="au-te-q"><img src="assets/qr-app.png" alt=""><div><b>Try it on your phone</b><span>' + C.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') + '</span></div></div>' : '') +
+    '<p class="au-te-f">' + C.grounding + '</p>';
+  function ease(x){ return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function easeBack(x){ var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+  function capHTML(c){
+    c = c || {k: '', t: '', l: ''};
+    return '<div class="au-tk' + (c.n ? '' : ' au-ctx') + '"><i></i>' + (c.n ? 'Idea ' + c.n + ' of ' + IDEAS : (c.k || 'Context')) + '</div><h2 class="au-tt">' + c.t + '</h2><p class="au-tl">' + (c.l || '') + '</p>' +
+      (c.o ? '<div class="au-to"><small>Potential outcome · based on Adapty data</small><b><mark>' + c.o + '</mark></b><span>' + (c.ol || '') + '</span></div>' : '');
+  }
+  function place(id, tf, z){ scr[id].style.transform = tf; scr[id].style.zIndex = z; }
+  window.TOUR_MS = TOTAL;
+  window.tourAt = function(ms){
+    ms = Math.max(0, Math.min(TOTAL - 1, ms));
+    var i = 0; while (i < SEG.length - 1 && ms >= START[i + 1]) i++;
+    var s = SEG[i], local = ms - START[i], prev = i > 0 ? SEG[i - 1] : null;
+    Object.keys(STATE[i]).forEach(function(k){ S[k] = STATE[i][k]; }); sync();
+    var moving = prev && prev.id !== s.id && local < TR, p = moving ? ease(local / TR) : 1;
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('is-active', 'is-past', 'under'); place(k, 'translateX(100%)', 0); });
+    var B = scr[s.id];
+    if (moving) {
+      if (B.classList.contains('sheet')) { place(prev.id, 'none', 1); B.style.transform = 'translateY(' + (1 - p) * 100 + '%)'; }
+      else {
+        var slide = 'translateX(' + (-28 * p) + '%)'; place(prev.id, slide, 1); B.style.transform = 'translateX(' + (1 - p) * 100 + '%)';
+        if (UNDER[i - 1]) place(UNDER[i - 1], slide, 0);
+      }
+    } else B.style.transform = 'none';
+    B.style.zIndex = 2;
+    if (UNDER[i] && !moving) place(UNDER[i], 'none', 1);
+    /* optional reveal: s.pop scales an element in, s.reveal fades one in a beat later */
+    popped.forEach(function(e){ e.style.transform = ''; e.style.opacity = ''; }); popped = [];
+    var q = Math.max(0, Math.min(1, (local - 250) / 550));
+    if (s.pop) { var pe = B.querySelector(s.pop); if (pe) { pe.style.transform = 'scale(' + (.55 + .45 * easeBack(q)) + ')'; pe.style.opacity = Math.min(1, q * 1.6); popped.push(pe); } }
+    if (s.reveal) { var re = B.querySelector(s.reveal); if (re) { re.style.opacity = Math.max(0, Math.min(1, (local - 520) / 300)); popped.push(re); } }
+    /* caption crossfades at screen changes; waits for the intro, gives way to the end card */
+    var key = s.id, op = 1;
+    if (moving) { if (p < .5) { key = prev.id; op = 1 - p * 2; } else op = p * 2 - 1; }
+    if (capEl.dataset.k !== key) { capEl.innerHTML = capHTML(T.captions[key]); capEl.dataset.k = key; }
+    var io = ms < 1100 ? 1 : Math.max(0, 1 - (ms - 1100) / 300), eo = s.end ? Math.min(1, local / 350) : 0;
+    capEl.style.opacity = op * Math.max(0, Math.min(1, (ms - 1400) / 300)) * (1 - eo);
+    /* the finger: fades in, taps, ripples out. Selectors are scoped to the screen */
+    tap.style.opacity = 0; if (pressed) { pressed.style.opacity = ''; pressed = null; }
+    if (s.tap) {
+      var el = B.querySelector(s.tap[0]), dt = local - s.tap[1];
+      if (el && dt > -260 && dt < 420) {
+        var r = el.getBoundingClientRect();
+        tap.style.left = (r.left + r.width / 2) + 'px'; tap.style.top = (r.top + r.height / 2) + 'px';
+        if (dt < 0) { tap.style.opacity = (dt + 260) / 260 * .9; tap.style.transform = 'scale(1)'; }
+        else { tap.style.opacity = .9 * (1 - dt / 420); tap.style.transform = 'scale(' + (1 + dt / 420 * .9) + ')'; }
+        if (dt >= 0 && dt < 160) { el.style.opacity = .72; pressed = el; }
+      }
+    }
+    $('tIntro').style.opacity = T.intro === false ? 0 : io;
+    $('tEnd').style.opacity = eo;
+    $('tProg').style.width = (ms / TOTAL * 100) + '%';
+    cur = s.id;
+    return i;
+  };
+  var tm = /[?&]t=(\d+)/.exec(Q); tourAt(tm ? +tm[1] : 0);
+}
+
+/* boot: #<screen-id> deep-links a screen (shoot.sh / hero-stills.sh use it); ?lang=xx picks the language */
+(function(){
+  var lm = /[?&]lang=(\w+)/.exec(Q); if (lm) setLang(lm[1]); else setLang(S.lang);
+  var h = location.hash.slice(1);
+  jump(scr[h] ? h : ORDER[0]);
+  if (scr[h] && !SHOT && !document.documentElement.classList.contains('appmode')) setTimeout(function(){ $('prototype').scrollIntoView(); }, 0);
+  if (/[?&]tour\b/.test(Q) && C.tour) tourInit();
+})();
+</script>
+</body>
+</html>
